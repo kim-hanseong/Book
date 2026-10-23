@@ -72,28 +72,6 @@ export async function addToCartApi(item: Book) {
   }
 }
 // 3. 장바구니 아이템 수량/정보 업데이트
-export async function UpdateShop(item: Book) {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { error: "로그인이 필요합니다." };
-
-  const { error } = await supabase
-    .from(SUPABASE_TABLES.SHOP_DATA)
-    .update({
-      numbering: item.numbering,
-    })
-    .eq("isbn", item.isbn)
-    .eq("user_id", user.id);
-
-  if (error) return { error: error.message };
-
-  return { success: true };
-}
-
-// 4. 장바구니 아이템 삭제
 export async function removeFromCartApi(book: Book) {
   const supabase = createClient();
   const {
@@ -122,58 +100,4 @@ export async function removeFromCartApi(book: Book) {
   revalidatePath("/bestseller");
 
   return { success: true };
-}
-
-// 5. 중복 여부에 따른 추가/업데이트 메인 함수
-export async function ShopDBAdd(items: Book[] | Book) {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { error: "로그인이 필요합니다." };
-
-  const itemsArray = Array.isArray(items) ? items : [items];
-
-  const results = await Promise.all(
-    itemsArray.map(async (item) => {
-      const { data: existingItem, error: checkError } = await supabase
-        .from(SUPABASE_TABLES.SHOP_DATA)
-        .select("id, isbn")
-        .eq("isbn", item.isbn)
-        .eq("user_id", user.id)
-        .single();
-
-      if (checkError && checkError.code !== "PGRST116") {
-        return { error: "중복 확인 중 오류가 발생했습니다." };
-      }
-
-      if (existingItem) {
-        const updateResult = await UpdateShop(item);
-
-        if (updateResult.error)
-          return { status: "error", message: updateResult.error };
-
-        return {
-          status: "duplicate",
-          message: "이미 장바구니에 있는 상품입니다.",
-        };
-      } else {
-        const addResult = await AddShop(item);
-
-        if (addResult.error) {
-          return { status: "error", message: addResult.error };
-        }
-
-        return {
-          status: "added",
-          message: "상품이 장바구니에 추가되었습니다.",
-        };
-      }
-    }),
-  );
-
-  revalidatePath("/bestseller");
-
-  return { results };
 }
