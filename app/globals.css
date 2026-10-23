@@ -43,6 +43,15 @@
   --accent-selected-bg: rgba(242, 241, 234, 0.15);
   --accent-selected-border: var(--glow);
 
+  --cart-void: #000;
+  --cart-slate: #0c0c0c;
+  --cart-slate-2: #111;
+  --cart-line: rgba(255, 255, 255, 0.16);
+  --cart-glow: #64ffda;
+  --cart-glow-dim: rgba(100, 255, 218, 0.35);
+  --cart-bone: #ecebe3;
+  --cart-bone-dim: #8f8d85;
+  --cart-dim: #4d4c47;
   /* [텍스트 / 타이포그래피] */
   --bone: #ecebe3;
   --bone-bright: #dcdbd6;

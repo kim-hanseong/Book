@@ -5,7 +5,8 @@
   position: fixed;
   width: 100%;
   max-width: 840px;
-  background: rgba(15, 15, 20, 0.85);
+  min-height: 470px;
+  background: var(--cart-slate);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   padding: 40px;
