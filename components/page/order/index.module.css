@@ -868,25 +868,6 @@
   overflow: hidden;
 }
 
-:global(.droplet) {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 35% 30%,
-    #fff,
-    #64ffda 60%,
-    transparent 100%
-  );
-  box-shadow: 0 0 6px rgba(100, 255, 218, 0.5);
-  transform: translate(var(--sx), var(--sy)) scale(1);
-  opacity: 0.95;
-  animation: dropletConverge 0.42s cubic-bezier(0.3, 0.85, 0.4, 1) forwards;
-  pointer-events: none;
-  z-index: 5;
-}
-
 .addressChanged {
   animation: addressPulse 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }

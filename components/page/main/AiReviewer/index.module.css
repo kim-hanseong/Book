@@ -39,25 +39,6 @@
   }
 }
 
-:global(.ripple) {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: var(--radius-full);
-  transform: translate(-50%, -50%) scale(0);
-  background: radial-gradient(
-    circle at 35% 30%,
-    rgba(255, 255, 255, 0.9),
-    var(--glow) 45%,
-    transparent 72%
-  );
-  mix-blend-mode: screen;
-  opacity: 0.9;
-  animation: dropletPool 0.55s cubic-bezier(0.22, 0.85, 0.32, 1) forwards;
-  pointer-events: none;
-  z-index: 4;
-}
-
 @keyframes dropletPool {
   0% {
     transform: translate(-50%, -50%) scale(0);
