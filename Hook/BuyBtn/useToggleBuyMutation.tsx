@@ -14,7 +14,7 @@ export const useToggleShopMutation = () => {
     mutationFn: async (item: Book) => {
       const shopList: Book[] =
         queryClient.getQueryData(queryKeys.cart.list()) || [];
-      const isInCart = shopList.some((v) => v.thumbnail === item.thumbnail);
+      const isInCart = shopList.some((v) => v.isbn === item.isbn);
 
       if (!isInCart) {
         const res = await removeFromCartApi(item);
@@ -30,7 +30,6 @@ export const useToggleShopMutation = () => {
         return { action: "add" as const };
       }
     },
-
     onMutate: async (newItem) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.cart.list() });
 
@@ -38,15 +37,19 @@ export const useToggleShopMutation = () => {
         queryKeys.cart.list(),
       );
 
-      queryClient.setQueryData<Book[]>(queryKeys.cart.list(), (old = []) => {
-        const isInCart = old.some((v) => v.thumbnail === newItem.thumbnail);
+      // 💡 old 매개변수에 : Book[] 타입을 직접 붙여줍니다.
+      queryClient.setQueryData<Book[]>(
+        queryKeys.cart.list(),
+        (old: Book[] = []) => {
+          const isInCart = old.some((v) => v.isbn === newItem.isbn);
 
-        if (isInCart) {
-          return old.filter((v) => v.thumbnail !== newItem.thumbnail);
-        } else {
-          return [...old, newItem];
-        }
-      });
+          if (isInCart) {
+            return old.filter((v) => v.isbn !== newItem.isbn);
+          } else {
+            return [...old, newItem];
+          }
+        },
+      );
 
       return { previousShopList };
     },
