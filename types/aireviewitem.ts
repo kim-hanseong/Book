@@ -1,4 +1,3 @@
-import { User } from "@supabase/supabase-js";
 
 export interface AiReviewItem {
   id: number;

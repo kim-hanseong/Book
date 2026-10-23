@@ -1,34 +1,34 @@
 "use client";
 
 import React, { useState, MouseEvent, useRef, useEffect } from "react";
-import styles from "./index.module.css";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
+
 import { useLanguage } from "../hook/useContextLanguge";
-import { ORDER_DICTIONARY } from "@/constants/order/order";
-import { Book } from "@/types/book";
 import { Thumbnail } from "../common/Product/Thumbnail";
 import { Title } from "../common/Product/Title";
-import { Address } from "@/types/address";
 import QuantityControl from "../common/Product/Quantity/QuantityControl";
 import { useModalStack } from "../hook/useContextModal";
 import AddressListModal from "../common/Modal/AddressListModal";
 import { Authors } from "../common/Product/Authors";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import AddressSearchModal from "../common/Modal/AddressSearchModal";
+import AddressDoneModal from "../common/Modal/Arlam/AddAddressArlam";
+import { DeleteButton } from "../common/button/DeleteBtn";
+
+import styles from "./index.module.css";
+
 import {
   AddAddressDataBase,
   AddressDataBase,
-  getAddressList,
 } from "@/lib/api/addressAction";
 import { useToggleShopMutation } from "@/Hook/BuyBtn/useToggleBuyMutation";
-import AddressSearchModal from "../common/Modal/AddressSearchModal";
-import clsx from "clsx";
-import AddressDoneModal from "../common/Modal/Arlam/AddAddressArlam";
 import { queryKeys } from "@/lib/query/querykeys";
 import { fetchBuyList } from "@/lib/query/Buy/fetchBuy";
-import { Price } from "../common/Product/Price";
-import KarmaRating from "../common/Rating";
-import { DeleteButton } from "../common/button/DeleteBtn";
+import { Address } from "@/types/address";
+import { Book } from "@/types/book";
+import { ORDER_DICTIONARY } from "@/constants/order/order";
 import { SHOP_MODAL_DICTIONARY } from "@/constants/common/Modal/ShopModal/shopModal";
-import classNames from "classnames";
+
 
 export type PayMethod = "card" | "bank" | "easy";
 
@@ -51,6 +51,7 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
     queryKey: ["addresses"], // 오타(addressess -> addresses) 수정
     queryFn: async (): Promise<Address[]> => {
       const postData = await AddressDataBase();
+
       return (postData ?? []) as Address[];
     },
     initialData: address,
@@ -76,14 +77,17 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
 
   const [quantities, setQuantities] = useState<Record<string, number>>(() => {
     const initial: Record<string, number> = {};
+
     shopList.forEach((item) => {
       initial[item.id] = item.qty || 1;
     });
+
     return initial;
   });
 
   const itemsTotal = shopList.reduce((sum, item) => {
     const currentQty = quantities[item.id] || 1;
+
     return sum + item.price * currentQty;
   }, 0);
 
@@ -315,6 +319,7 @@ function AddressSection({
 
   const validatePhone = (phone: string) => {
     const cleaned = phone.replace(/[^0-9]/g, "");
+
     return /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/.test(cleaned);
   };
 
@@ -339,6 +344,7 @@ function AddressSection({
       });
       triggerShake("recipient_name");
       recipientRef.current?.focus();
+
       return;
     }
 
@@ -361,6 +367,7 @@ function AddressSection({
       });
       triggerShake("phone_number");
       phoneRef.current?.focus();
+
       return;
     }
 
@@ -368,6 +375,7 @@ function AddressSection({
     if (!newAddress.addressinfo.trim()) {
       alert(t.errors.addressRequired);
       onSearchModal();
+
       return;
     }
 
@@ -390,6 +398,7 @@ function AddressSection({
       });
       triggerShake("addressdetailinfo");
       detailRef.current?.focus();
+
       return;
     }
 

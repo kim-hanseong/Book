@@ -8,18 +8,21 @@ import React, {
   useMemo,
 } from "react";
 import classNames from "classnames";
-import { useModalStack } from "@/components/hook/useContextModal";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+
+import Button from "../../../button/EffectBtn";
+
 import styles from "./index.module.css";
+
+import { useModalStack } from "@/components/hook/useContextModal";
 import { SEARCH_DICTIONARY } from "@/constants/navigation";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { Book } from "@/types/book";
 import { useRecentSearches } from "@/components/hook/useRecentSearch";
-import Button from "../../../button/EffectBtn";
 import { Thumbnail } from "@/components/common/Product/Thumbnail";
 import { Title } from "@/components/common/Product/Title";
 import { KakaoBookSearch } from "@/lib/kakao/bookApi";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { FocusBtn } from "@/components/common/button/FocusBtn";
 import { fetchBuyList } from "@/lib/query/Buy/fetchBuy";
 

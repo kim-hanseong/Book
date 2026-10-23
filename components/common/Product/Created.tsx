@@ -1,6 +1,6 @@
-import classNames from "classnames";
-import { Book } from "@/types/book";
+
 import { Skeleton } from "../Skeleton";
+
 import { FormatRelativeTime } from "@/lib/utils/FormatTime";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { AiReviewItem } from "@/types/aireviewitem";

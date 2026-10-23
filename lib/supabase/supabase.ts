@@ -20,6 +20,7 @@ export async function signInWithKakao(): Promise<void> {
 
     if (error) {
       console.error("Error signing in with Kakao:", error.message);
+
       return;
     }
     console.log("Kakao sign-in successful:", data);
@@ -34,6 +35,7 @@ export async function logout() {
 
   if (error) {
     console.error("로그아웃 중 오류가 발생했습니다:", error.message);
+
     return { success: false, error };
   }
 
@@ -42,6 +44,7 @@ export async function logout() {
 
 export async function checkLogin() {
   const authInfo = await supabase.auth.getSession();
+
   return authInfo.data?.session;
 }
 
@@ -86,6 +89,7 @@ export const AddLikeDataBase = async (data: BookDataType) => {
     if (error.code === "23505") {
       return { error: "이미 처리되었습니다." };
     }
+
     return { error: "좋아요 추가에 실패했습니다." };
   }
 
@@ -111,6 +115,7 @@ export async function RemoveLikeDataBase(
 
   if (deleteError) {
     console.error("Error removing like:", deleteError.message);
+
     return { error: "좋아요 삭제 중 오류가 발생했습니다." };
   }
 
@@ -120,6 +125,7 @@ export async function RemoveLikeDataBase(
 // --------------------------- Shop 테이블 관련 함수 ---------------------------*/
 export async function ReadSupaBase(userid?: string): Promise<BooksData> {
   const { data: record, error } = await supabase.from("Shop").select("*");
+
   return { data: record || [], total: record ? record.length : null, error };
 }
 
@@ -127,13 +133,16 @@ export async function DeleteSupaBase(
   id: number,
 ): Promise<{ success: boolean; error?: unknown }> {
   const { data, error } = await supabase.from("Shop").delete().eq("id", id);
+
   if (error) return { success: false, error };
+
   return { success: true };
 }
 
 export const ShopDBAdd = async (items: BookDataType[] | BookDataType) => {
   try {
     const { data: records, error: readError } = await ReadSupaBase();
+
     if (readError) return { error: readError };
 
     const existingRecords = records || [];
@@ -156,6 +165,7 @@ export const ShopDBAdd = async (items: BookDataType[] | BookDataType) => {
     return { results };
   } catch (error) {
     console.error("Unexpected error:", error);
+
     return { error };
   }
 };
@@ -166,6 +176,7 @@ export const DeleteShopDB = async (id: number) => {
   if (error) {
     throw new Error("Error deleting data.");
   }
+
   return data;
 };
 
@@ -178,6 +189,7 @@ export const DeleteOrderShopDB = async (titles: string[]) => {
   if (error) {
     throw new Error("Shop 데이터 삭제 중 오류 발생");
   }
+
   return data;
 };
 
@@ -220,6 +232,7 @@ export const fetchPostBySlug = async () => {
   if (error) {
     throw new Error("Error fetching post.");
   }
+
   return data;
 };
 
@@ -230,6 +243,7 @@ export const fetchPostBySlug2 = async (
   sort: SortType = "최신순",
 ) => {
   let query = supabase.from("posts").select("*").eq("slug", slug);
+
   console.log("가져옴");
 
   // 정렬 조건 적용
@@ -259,6 +273,7 @@ export const DeleteSlugDB = async (id: number) => {
   if (error) {
     throw new Error("Error deleting data.");
   }
+
   return data;
 };
 
@@ -276,6 +291,7 @@ export const addPost = async (
   if (error) {
     throw new Error(`Error adding post: ${error.message}`);
   }
+
   return data;
 };
 
@@ -290,6 +306,7 @@ const addItemToDatabase = async (item: BookDataType) => {
   if (error) {
     console.error("Error adding item to database:", error.message);
   }
+
   return { data, error };
 };
 
@@ -324,6 +341,7 @@ export async function fetchPostByTitleAndThumbnail(
 
   if (error) {
     console.error("Supabase 조회 실패:", error);
+
     return [];
   }
 
@@ -379,6 +397,7 @@ export async function fetchReviewer(title: string, isbn: string) {
 
   if (error) {
     console.error("Supabase 조회 실패:", error);
+
     return { reviewer: [] };
   }
 

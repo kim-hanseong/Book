@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { FOOTER_DICTIONARY } from "@/constants/footer";
+
 import styles from "./index.module.css";
+
+import { FOOTER_DICTIONARY } from "@/constants/footer";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 
 export default function Footer() {

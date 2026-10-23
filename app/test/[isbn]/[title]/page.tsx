@@ -5,7 +5,6 @@ import { UserAiReviewerDataBase } from "@/lib/api/userAiState";
 import { KakaoBookSearch } from "@/lib/kakao/bookApi";
 import { fetchPostByTitleAndThumbnail } from "@/lib/supabase/supabase";
 import { Book } from "@/types/book";
-import { comment } from "@/types/comment";
 
 async function Page({
   params,

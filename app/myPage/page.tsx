@@ -17,7 +17,7 @@ export default async function Page() {
     ]);
 
   // 💡 [최적화 1] 동일한 책 제목으로 API를 중복 호출하는 것을 막기 위한 인메모리 캐시 맵
-  const searchCache = new Map<string, any[]>();
+  const searchCache = new Map<string, Book[]>();
 
   const fetchAndMatchBook = async (item: { title?: string; isbn?: string }) => {
     if (!item?.title) return null;
@@ -27,6 +27,7 @@ export default async function Page() {
       if (!searchCache.has(item.title)) {
         const searchResults = await KakaoBookSearch(item.title);
         const bookList = searchResults?.documents || searchResults || [];
+
         searchCache.set(item.title, bookList);
       }
 
@@ -34,12 +35,13 @@ export default async function Page() {
 
       // ISBN 매칭 (없으면 검색 결과 첫 번째 항목 반환)
       const matchedBook = item.isbn
-        ? bookList.find((book: any) => book.isbn?.includes(item.isbn))
+        ? bookList.find((book: Book) => book.isbn?.includes(item.isbn))
         : bookList[0];
 
       return matchedBook || bookList[0] || null;
     } catch (error) {
       console.error(`Book search failed for: ${item.title}`, error);
+
       return null;
     }
   };

@@ -1,6 +1,8 @@
 import classNames from "classnames";
-import { Book } from "@/types/book";
+
 import { Skeleton } from "../Skeleton";
+
+import { Book } from "@/types/book";
 
 export const Price: React.FC<{
   data: Book | null;

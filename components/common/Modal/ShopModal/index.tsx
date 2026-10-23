@@ -3,25 +3,29 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
-import styles from "./index.module.css";
-import { Book } from "@/types/book";
+import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
+
 import { Created } from "../../Product/Created";
 import { Thumbnail } from "../../Product/Thumbnail";
 import { Title } from "../../Product/Title";
 import { Authors } from "../../Product/Authors";
 import { Price } from "../../Product/Price";
-import { useModalStack } from "@/components/hook/useContextModal";
 import KarmaRating from "../../Rating";
 import { CloseButton } from "../../button/CloseBtn";
 import { DeleteButton } from "../../button/DeleteBtn";
+
+import styles from "./index.module.css";
+
+import { useModalStack } from "@/components/hook/useContextModal";
+import { Book } from "@/types/book";
 import { useToggleShopMutation } from "@/Hook/BuyBtn/useToggleBuyMutation";
-import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/query/querykeys";
 import { fetchBuyList } from "@/lib/query/Buy/fetchBuy";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { SHOP_MODAL_DICTIONARY } from "@/constants/common/Modal/ShopModal/shopModal";
 import { SHOP_EMPTY_DICTIONARY } from "@/constants/order/order";
-import clsx from "clsx";
+
 
 const THUMB_W = 126;
 const THUMB_H = 178;
@@ -139,6 +143,7 @@ function EmptyShop() {
       const sx = Math.cos(a) * d;
       const sy = Math.sin(a) * d;
       const dr = document.createElement("span");
+
       dr.className = styles.droplet;
       dr.style.left = `${cx}px`;
       dr.style.top = `${cy}px`;

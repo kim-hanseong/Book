@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import { Language } from "@/types/il8n";
 import {
   PERSONA_DICTIONARY,
@@ -21,10 +22,13 @@ export function usePersonaStorage(lang: Language) {
     if (typeof window === "undefined") return;
 
     const cachedId = sessionStorage.getItem(STORAGE_KEY);
+
     if (cachedId) {
       const found = dict.personas.find((p) => p.id === cachedId);
+
       if (found) {
         setSelectedPersona(found);
+
         return;
       }
     }
@@ -35,6 +39,7 @@ export function usePersonaStorage(lang: Language) {
   // 2. 캐릭터 변경 및 캐시 저장 함수
   const changePersona = (personaId: string) => {
     const target = dict.personas.find((p) => p.id === personaId);
+
     if (target) {
       setSelectedPersona(target);
       if (typeof window !== "undefined") {

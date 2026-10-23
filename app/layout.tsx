@@ -4,7 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import "./globals.css";
 import { LanguageProvider } from "@/components/hook/useContextLanguge";
 import { ModalProvider } from "@/components/hook/useContextModal";
+
 import { cookies } from "next/headers";
+
 import { Language } from "@/types/il8n";
 import { PersonaProvider } from "@/components/Context/usePersonaContext";
 import Header from "@/components/common/Layout/Header";

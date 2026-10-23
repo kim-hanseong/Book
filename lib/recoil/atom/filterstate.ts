@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { sessionStorageEffect } from "../effects/sessionStorageEffect";
+
 
 export interface FilterState {
   year: string | number;

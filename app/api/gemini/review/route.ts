@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI, Type } from "@google/genai";
+
 import { KakaoBookSearch } from "@/lib/kakao/bookApi"; // 💡 카카오 도서 검색 함수 임포트 (프로젝트 경로 확인)
 
 export async function POST(req: Request) {
@@ -85,6 +86,7 @@ ${
     });
 
     const resultText = response.text;
+
     if (!resultText) throw new Error("Empty response");
 
     const parsedData = JSON.parse(resultText);
@@ -95,6 +97,7 @@ ${
       recommendationTitles.map(async (title) => {
         try {
           const searchResults = await KakaoBookSearch(title);
+
           // 검색 결과 중 가장 연관도가 높은 첫 번째 책(표지, 저자, ISBN 등 포함) 반환
           return searchResults?.[0] || { title };
         } catch (error) {
@@ -102,6 +105,7 @@ ${
             `Failed to fetch Kakao book data for title: ${title}`,
             error,
           );
+
           return { title };
         }
       }),
@@ -113,12 +117,13 @@ ${
       recommendations: recommendationTitles, // ["이방인", "물고기는 존재하지 않는다", ...]
       recommendedBooks, // [{ title: "이방인", thumbnail: "...", authors: [...], ... }, ...]
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Gemini Recommendation API Error:", error);
 
-    return NextResponse.json(
-      { error: error?.message || "Internal Error" },
-      { status: 500 },
-    );
+    // error가 Error 객체인지 확인하고 메시지를 안전하게 가져옵니다
+    const errorMessage =
+      error instanceof Error ? error.message : "Internal Error";
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

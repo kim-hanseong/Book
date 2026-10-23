@@ -1,6 +1,7 @@
-import { Book } from "@/types/book";
 import Link from "next/link";
 import React from "react";
+
+import { Book } from "@/types/book";
 
 interface BuyButtonProps {
   data: Book;

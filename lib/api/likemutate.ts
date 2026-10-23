@@ -66,6 +66,7 @@ export const RemoveLikeDataBase = async (book: Book) => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (!user) return { error: "로그인이 필요합니다." };
 
   const { error } = await supabase
@@ -75,10 +76,12 @@ export const RemoveLikeDataBase = async (book: Book) => {
 
   if (error) {
     console.error("Error removing like:", error.message);
+
     return { error: "좋아요 취소에 실패했습니다." };
   }
 
   revalidatePath("/bestseller");
+
   return { success: true };
 };
 

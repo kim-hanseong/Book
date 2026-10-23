@@ -1,18 +1,21 @@
 "use client";
 
 import React, { useState, useCallback, useMemo } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { Skeleton } from "../../Skeleton";
+import { CloseButton } from "../../button/CloseBtn";
+import { DeleteButton } from "../../button/DeleteBtn";
+
 import styles from "./index.module.css";
+
 import {
   deleteAddress,
   getAddressList,
   updateDefaultAddress,
 } from "@/lib/api/addressAction";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Address } from "@/types/address";
-import { Skeleton } from "../../Skeleton";
-import { CloseButton } from "../../button/CloseBtn";
 import { useModalStack } from "@/components/hook/useContextModal";
-import { DeleteButton } from "../../button/DeleteBtn";
 import { queryKeys } from "@/lib/query/querykeys";
 import { ADDRESS_LIST_DICTIONARY } from "@/constants/common/Modal/AddressListModal/addressListModal";
 import { useLanguage } from "@/components/hook/useContextLanguge";
@@ -36,6 +39,7 @@ export default function AddressListModal() {
     queryKey: queryKeys.address.list(),
     queryFn: async () => {
       const postData = await getAddressList();
+
       return (postData ?? []) as Address[];
     },
     staleTime: 1000 * 60 * 3, // 3분 캐싱
@@ -97,6 +101,7 @@ const ReadAddressSection = React.memo(function ReadAddressSection({
     if (selectedItem && !selectedItem.is_default) {
       setIsLoading(true);
       const success = await updateDefaultAddress(String(selectedId));
+
       setIsLoading(false);
       closeModal();
 
@@ -115,6 +120,7 @@ const ReadAddressSection = React.memo(function ReadAddressSection({
 
       if (isDefault) {
         setDeleteErrorId(id);
+
         return;
       }
 
@@ -185,7 +191,7 @@ interface AddressCardProps {
   isSelected: boolean;
   onSelect: (id: string | number) => void;
   onDelete: (id: string, isDefault: boolean, e?: React.MouseEvent) => void;
-  t: any;
+  t: (typeof ADDRESS_LIST_DICTIONARY)["ko"];
 }
 
 const AddressCard = React.memo(function AddressCard({
@@ -202,7 +208,7 @@ const AddressCard = React.memo(function AddressCard({
       role="button"
       style={{ position: "relative" }}
     >
-      <span className={styles.amBox}></span>
+      <span className={styles.amBox} />
 
       <div className={styles.amItemBody}>
         <div className={styles.amItemTop}>

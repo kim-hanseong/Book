@@ -2,9 +2,10 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { HERO_DICTIONARY } from "@/constants/main/Hero";
+
 import style from "./index.module.css";
-import { Language } from "@/types/il8n";
+
+import { HERO_DICTIONARY } from "@/constants/main/Hero";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 
 // 1. 그래픽 요소 (게이트 링)
@@ -26,6 +27,7 @@ export default function HeroSection() {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+
     if (reduceMotion) return;
 
     let rainTimer: NodeJS.Timeout;
@@ -47,6 +49,7 @@ export default function HeroSection() {
       const fall = heroH + 60;
 
       const d = document.createElement("span");
+
       d.className = style["raindrop"];
       d.style.left = `${leftPct}%`;
       d.style.width = `${width.toFixed(2)}px`;
@@ -62,6 +65,7 @@ export default function HeroSection() {
         // 바닥 근처 미세 낙수 스플래시 생성 (50% 확률)
         if (Math.random() < 0.5 && heroEl) {
           const splash = document.createElement("span");
+
           splash.className = style["drip-ripple"];
           splash.style.left = `${(leftPct / 100) * heroW + drift}px`;
           splash.style.top = `${heroH - 6}px`;
@@ -96,6 +100,7 @@ export default function HeroSection() {
         rect.top - heroRect.top + 400 * scale + Math.sin(angle) * r * scale;
 
       const drip = document.createElement("span");
+
       drip.className = style["drip-ripple"];
       drip.style.left = `${cx}px`;
       drip.style.top = `${cy}px`;
@@ -106,6 +111,7 @@ export default function HeroSection() {
     const dripLoop = () => {
       spawnDrip();
       const next = 1400 + Math.random() * 2200;
+
       dripTimer = setTimeout(dripLoop, next);
     };
 
@@ -161,7 +167,7 @@ export default function HeroSection() {
 
         <div className={style["scroll-cue"]}>
           <span>{dict.scrollCue}</span>
-          <span className={style.bar}></span>
+          <span className={style.bar} />
         </div>
       </section>
       <GateDivider />
@@ -176,7 +182,7 @@ function GateRings({
 }) {
   return (
     <div className={style["gate-rings"]} ref={ringsRef} aria-hidden="true">
-      <div className={style.band}></div>
+      <div className={style.band} />
       <svg viewBox="0 0 800 800" width="100%" height="100%">
         <circle
           cx="400"
@@ -202,7 +208,7 @@ function GateRings({
 export function GateDivider() {
   return (
     <div className={style["gate-divider"]}>
-      <div className={style.line}></div>
+      <div className={style.line} />
       <svg viewBox="0 0 44 44" fill="none">
         <circle
           cx="22"
@@ -222,7 +228,7 @@ export function GateDivider() {
         />
         <circle cx="22" cy="22" r="3" fill="#f2f1ea" />
       </svg>
-      <div className={`${style.line} ${style.right}`}></div>
+      <div className={`${style.line} ${style.right}`} />
     </div>
   );
 }

@@ -8,17 +8,19 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
+
 import styles from "./index.module.css";
+
 import {
   ORDER_DICTIONARY,
   SHOP_EMPTY_DICTIONARY,
 } from "@/constants/order/order";
 import { Book } from "@/types/book";
 import { Address } from "@/types/address";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AddAddressDataBase, getAddressList } from "@/lib/api/addressAction";
 import { useToggleShopMutation } from "@/Hook/BuyBtn/useToggleBuyMutation";
-import clsx from "clsx";
 import { queryKeys } from "@/lib/query/querykeys";
 import { fetchBuyList } from "@/lib/query/Buy/fetchBuy";
 import { useModalStack } from "@/components/hook/useContextModal";
@@ -61,6 +63,7 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
     queryKey: queryKeys.address.list(),
     queryFn: async (): Promise<Address[]> => {
       const postData = await getAddressList();
+
       return (postData ?? []) as Address[];
     },
     initialData: address,
@@ -94,6 +97,7 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
     (shop || []).forEach((item) => {
       initial[item.id] = item.numbering || 1;
     });
+
     return initial;
   });
 
@@ -107,6 +111,7 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
   const totalPrice = useMemo(() => {
     return shopList.reduce((sum, item) => {
       const currentQty = quantities[item.id] || 1;
+
       return sum + (item.price || 0) * currentQty;
     }, 0);
   }, [shopList, quantities]);
@@ -163,6 +168,7 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
 
       if (failedResult) {
         openModal("error-modal", <ErrorModal />);
+
         return;
       }
 
@@ -291,6 +297,7 @@ function AddressSection({
 
   const validatePhone = (phone: string) => {
     const cleaned = phone.replace(/[^0-9]/g, "");
+
     return /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/.test(cleaned);
   };
 
@@ -316,6 +323,7 @@ function AddressSection({
       });
       triggerShake("recipient_name");
       recipientRef.current?.focus();
+
       return;
     }
 
@@ -338,6 +346,7 @@ function AddressSection({
       });
       triggerShake("phone_number");
       phoneRef.current?.focus();
+
       return;
     }
 
@@ -345,6 +354,7 @@ function AddressSection({
     if (!newAddress.addressinfo.trim()) {
       alert(t.errors.addressRequired);
       onSearchModal();
+
       return;
     }
 
@@ -367,6 +377,7 @@ function AddressSection({
       });
       triggerShake("addressdetailinfo");
       detailRef.current?.focus();
+
       return;
     }
 
@@ -653,6 +664,7 @@ const ShopItem = React.memo(function ShopItem({
 
   const calculatedPrice = useMemo(() => {
     const price = item.price || 0;
+
     return t.formatPrice
       ? t.formatPrice(price * currentQty)
       : `${(price * currentQty).toLocaleString()} ₩`;
@@ -694,6 +706,7 @@ const EmptyShop = React.memo(function EmptyShop() {
       const sx = Math.cos(a) * d;
       const sy = Math.sin(a) * d;
       const dr = document.createElement("span");
+
       dr.className = styles.droplet;
       dr.style.left = `${cx}px`;
       dr.style.top = `${cy}px`;

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
+
 import styles from "./index.module.css";
 
 import { useLanguage } from "@/components/hook/useContextLanguge";
@@ -11,7 +12,6 @@ import {
   PERSONA_DICTIONARY,
   PersonaItem,
 } from "@/constants/main/AiReviewSelect";
-
 import { AiThumbnail } from "@/components/common/AiReviewer/ReviewerThumbnail";
 import { AiTitle } from "@/components/common/AiReviewer/ReviewerTitle";
 
@@ -40,6 +40,7 @@ export default function PersonaSection() {
   // 초기 선택값 및 Context 기본값 매핑
   useEffect(() => {
     const defaultId = selectedPersonaId || dict.personas[0]?.id || "";
+
     setPreviewId(defaultId);
     if (!selectedPersonaId && defaultId) {
       setSelectedPersonaId(defaultId);

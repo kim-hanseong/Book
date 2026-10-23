@@ -1,6 +1,7 @@
 import classNames from "classnames";
-import { Book } from "@/types/book";
+
 import { Skeleton } from "../Skeleton";
+
 import { PersonaItem } from "@/constants/main/AiReviewSelect";
 
 export const AiTitle: React.FC<{

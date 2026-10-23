@@ -1,10 +1,10 @@
 "use client";
 
+import AuthModal from "../../Modal/GlobalModal/LoginModal";
+
 import { useSupabase } from "@/components/Auth/AuthProvider";
 import { useModalStack } from "@/components/hook/useContextModal";
 import { ButtonProps } from "@/types/btn";
-import AuthModal from "../../Modal/GlobalModal/LoginModal";
-import Button from "../EffectBtn";
 
 interface AuthButtonProps extends ButtonProps {
   authMode?: "login-only" | "protected";

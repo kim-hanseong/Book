@@ -1,5 +1,6 @@
-import { Book } from "@/types/book";
 import { Skeleton } from "../Skeleton";
+
+import { Book } from "@/types/book";
 
 export const Authors: React.FC<{
   data: Book | null;

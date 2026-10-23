@@ -1,5 +1,6 @@
-import { Book } from "@/types/book";
 import { KakaoBookSearch } from "../kakao/bookApi";
+
+import { Book } from "@/types/book";
 
 export async function fetchBookDetailsByTitles(
   titles: string[],
@@ -13,6 +14,7 @@ export async function fetchBookDetailsByTitles(
       if (res.status === "fulfilled" && res.value?.[0]) {
         return res.value[0];
       }
+
       return null;
     })
     .filter((book): book is Book => !!book);

@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { useToggleLikeMutation } from "./useToggleLikeMutation";
+
 import { fetchLikeList } from "@/lib/query/like/fetchLike";
 import { queryKeys } from "@/lib/query/querykeys";
 import { Book } from "@/types/book";
-import { useToggleLikeMutation } from "./useToggleLikeMutation";
 
 /**
  * 특정 아이템의 '좋아요' 상태를 확인하고, '좋아요'를 토글하는 기능을 제공하는 훅.

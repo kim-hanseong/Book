@@ -1,9 +1,10 @@
 "use server";
 
-import { Book } from "@/types/book";
 import { SUPABASE_TABLES } from "../supabase/table";
-import { AIReviewRecord } from "@/types/review";
+
+import { Book } from "@/types/book";
 import { createClient } from "@/lib/supabase/server";
+import { AiReviewItem } from "@/types/aireviewitem";
 
 /**
  * 1. ISBN 기준 평점이 높고 최신순인 AI 리뷰 상위 3개 가져오기
@@ -21,12 +22,14 @@ export async function getTopAiReviewers(isbn: string) {
 
     if (error) {
       console.error("📛 Supabase GetTopAiReviewers Error:", error.message);
+
       return [];
     }
 
     return data ?? [];
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("📛 GetTopAiReviewers Unexpected Error:", err);
+
     return [];
   }
 }
@@ -34,7 +37,7 @@ export async function getTopAiReviewers(isbn: string) {
 /**
  * 2. AI 리뷰 추가 (동일 ISBN + name 조합이 이미 존재하면 저장 건너뜀)
  */
-export async function addaiReviewer(item: Book, ai: AIReviewRecord) {
+export async function addaiReviewer(item: Book, ai: AiReviewItem) {
   try {
     const supabase = await createClient();
 
@@ -71,12 +74,12 @@ export async function addaiReviewer(item: Book, ai: AIReviewRecord) {
 
     if (error) {
       console.error("📛 Supabase AddAiReviewer Insert Error:", error.message);
+
       return { error: error.message };
     }
 
     return { success: true, data };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("📛 AddAiReviewer Unexpected Error:", err);
-    return { error: err.message || "AI 리뷰 추가 중 오류가 발생했습니다." };
   }
 }

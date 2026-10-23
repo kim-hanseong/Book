@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
 // 👇 체크포인트 1: 반드시 'server'용 클라이언트를 import 해야 합니다.
 import { createClient } from "@/lib/supabase/server";
 

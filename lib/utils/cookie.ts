@@ -36,6 +36,7 @@ export function loadBestsellerFilterStateFromCookie(
     };
   } catch {
     console.warn("Failed to parse filterState cookie, using default values.");
+
     return defaultState;
   }
 }

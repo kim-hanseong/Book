@@ -6,12 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 
 import styles from "./index.module.css";
+
 import { Book } from "@/types/book";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { FEATURED_BOOKS_DICTIONARY } from "@/constants/main/FeaturedBooks";
 import { useModalStack } from "@/components/hook/useContextModal";
 import { fetchBestSeller } from "@/lib/SSG/fetchBestSeller";
-
 import DetailModal from "@/components/common/Modal/DetailModal";
 import { LikeButton } from "@/components/common/button/LikeBtn";
 import { BuyButton } from "@/components/common/button/BuyBtn";
@@ -177,6 +177,7 @@ const ProductThumbnail = React.memo(({ data }: { data: Book }) => {
     </div>
   );
 });
+
 ProductThumbnail.displayName = "ProductThumbnail";
 
 const ProductInfo = ({ children }: { children: React.ReactNode }) => {

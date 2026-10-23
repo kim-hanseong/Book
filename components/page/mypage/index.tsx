@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useMemo } from "react";
+
 import styles from "./index.module.css";
+
 import { useLanguage } from "@/components/hook/useContextLanguge";
-import { usePersona } from "@/components/Context/usePersonaContext";
 import KarmaRating from "@/components/common/Rating";
 import { Book } from "@/types/book";
 import { AiReviewItem } from "@/types/aireviewitem";
@@ -148,6 +149,7 @@ const DeliveryList = React.memo(function DeliveryList({
       }
 
       const group = map.get(groupKey)!;
+
       group.items.push(order);
     });
 
@@ -231,6 +233,7 @@ const DeliveryStatusTracker = React.memo(function DeliveryStatusTracker({
 
   const orderDateFormatted = useMemo(() => {
     if (!order?.created_at) return order?.date || "";
+
     return new Date(order.created_at).toLocaleDateString();
   }, [order?.created_at, order?.date]);
 
@@ -439,7 +442,7 @@ const LikedBooksSection = React.memo(function LikedBooksSection({
             <div className={styles.bookInfoGroup}>
               <Title className={styles.bookTitle} data={item} />
             </div>
-            <div className={styles.likeIconWrap}></div>
+            <div className={styles.likeIconWrap} />
           </div>
           <div className={styles.plateFooter} />
         </article>
@@ -595,8 +598,8 @@ function EmptyPurchaseSection({
   return (
     <section className={styles.section}>
       <div className={styles.emptyPlates} aria-hidden="true">
-        <div className={styles.ep}></div>
-        <div className={styles.ep}></div>
+        <div className={styles.ep} />
+        <div className={styles.ep} />
         <div className={styles.ep}>
           <span className={styles.epOrb} />
         </div>
@@ -627,7 +630,7 @@ function EmptyReviewerSection({
     <section className={styles.section}>
       <div className={styles.emptyPlates} aria-hidden="true">
         <div className={styles.ep}>
-          <span className={styles.epOrb}></span>
+          <span className={styles.epOrb} />
         </div>
         <div className={styles.ep}>
           <span className={styles.epOrb} />
@@ -662,7 +665,7 @@ function EmptyCommentSection({
     <section className={styles.section}>
       <div className={styles.emptyPlates} aria-hidden="true">
         <div className={styles.ep}>
-          <span className={styles.epOrb}></span>
+          <span className={styles.epOrb} />
         </div>
         <div className={styles.ep}>
           <span className={styles.epOrb} />

@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
+
 import styles from "./index.module.css";
 
 interface KarmaRatingProps {
@@ -56,15 +57,18 @@ export default function KarmaRating({
 
     // 12시 방향을 0으로 만드는 각도 연산
     let angle = Math.atan2(dy, dx) + Math.PI / 2;
+
     if (angle < 0) angle += Math.PI * 2;
 
     const segIndex = Math.floor((angle / (Math.PI * 2)) * TOTAL_SEGS);
+
     return Math.min(TOTAL_SEGS, Math.max(1, segIndex + 1));
   };
 
   const handlePointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
     if (readOnly) return;
     const seg = getSegmentFromPointer(e);
+
     setHoverCount(seg);
   };
 
@@ -72,6 +76,7 @@ export default function KarmaRating({
     if (readOnly) return;
     const selectedSegs = getSegmentFromPointer(e);
     const newRating = Number(((selectedSegs / TOTAL_SEGS) * 5).toFixed(1));
+
     onChange?.(newRating);
   };
 
@@ -142,7 +147,7 @@ export default function KarmaRating({
         </div>
       </div>
 
-      <div className={styles.karmaInfo}></div>
+      <div className={styles.karmaInfo} />
     </div>
   );
 }

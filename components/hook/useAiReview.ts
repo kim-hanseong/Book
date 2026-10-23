@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+
 import { Book } from "@/types/book";
 import { PersonaItem } from "@/constants/main/AiReviewSelect";
 import { createPost } from "@/lib/supabase/supabase";
-import { addaiReviewer } from "@/lib/api/aiRatingAction";
 import { AiReviewItem } from "@/types/aireviewitem";
 import { AddUserAiReviewer } from "@/lib/api/userAiState";
 
@@ -25,7 +25,7 @@ export function useAiReview({
   fallbackText = "리뷰를 불러오는 중 오류가 발생했습니다.",
 }: UseAiReviewParams) {
   const queryClient = useQueryClient();
-  const [reviewStatus, setReviewStatus] = useState<any>("idle");
+  const [reviewStatus, setReviewStatus] = useState("idle");
   const [displayedText, setDisplayedText] = useState("");
   const [personaRating, setPersonaRating] = useState<number | null>(null);
 

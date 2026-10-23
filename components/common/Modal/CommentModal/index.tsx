@@ -1,20 +1,24 @@
-import { useModalStack } from "@/components/hook/useContextModal";
-import { useLanguage } from "@/components/hook/useContextLanguge";
 import { useState } from "react";
+import clsx from "clsx";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { CloseButton } from "../../button/CloseBtn";
-import styles from "./index.module.css";
 import { Title } from "../../Product/Title";
 import { Thumbnail } from "../../Product/Thumbnail";
 import KarmaRating from "../../Rating";
-import { Book } from "@/types/book";
-import { REVIEW_MODAL_DICTIONARY } from "@/constants/common/Modal/CommentModal/commentModal";
-import clsx from "clsx";
-import { AddPost } from "@/lib/api/postAction";
-import { useQueryClient } from "@tanstack/react-query";
-import { AddRating } from "@/lib/api/ratingAction";
 import CommentSuccessModal from "../Arlam/Comment/SuccessArlam";
 import ErrorModal from "../GlobalModal/ErrorModal";
 import LoadingModal from "../GlobalModal/LadingAralm";
+
+import styles from "./index.module.css";
+
+import { useModalStack } from "@/components/hook/useContextModal";
+import { useLanguage } from "@/components/hook/useContextLanguge";
+import { Book } from "@/types/book";
+import { REVIEW_MODAL_DICTIONARY } from "@/constants/common/Modal/CommentModal/commentModal";
+import { AddPost } from "@/lib/api/postAction";
+import { AddRating } from "@/lib/api/ratingAction";
+
 
 export interface ReviewModalProps {
   data: Book;
@@ -41,6 +45,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
   const handleSubmit = async () => {
     if (!isValid || isSubmitting) {
       console.log("유효성 검사 실패:", { isValid, isSubmitting });
+
       return;
     }
 
@@ -49,6 +54,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
       openModal("loading", <LoadingModal />);
 
       const { data: result, error } = await AddPost(data, text, rating);
+
       await AddRating(data, rating);
 
       // 🎯 에러 로그 확인

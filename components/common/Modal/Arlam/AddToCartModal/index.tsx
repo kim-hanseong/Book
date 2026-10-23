@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import styles from "./index.module.css";
+
 import { useModalStack } from "@/components/hook/useContextModal";
 import { Book } from "@/types/book";
-
-import styles from "./index.module.css";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { CART_SUCCESS_DICTIONARY } from "@/constants/common/Alram/CartSuccess/cartsucces";
 

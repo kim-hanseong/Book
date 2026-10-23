@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useMultiModal } from "@/Hook/common/useMultiModal";
 import { queryKeys } from "@/lib/query/querykeys";
 import { addLike, RemoveLikeDataBase } from "@/lib/api/likemutate";
 import { Book } from "@/types/book";
@@ -19,9 +18,11 @@ export const useToggleLikeMutation = () => {
 
       if (isLiked) {
         await addLike(item);
+
         return { action: "add" as const };
       } else {
         await RemoveLikeDataBase(item);
+
         return { action: "remove" as const };
       }
     },

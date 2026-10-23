@@ -5,28 +5,13 @@ import Image from "next/image";
 import classNames from "classnames";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 
-import styles from "./index.module.css";
-import { Book } from "@/types/book";
-import { useModalStack } from "@/components/hook/useContextModal";
 import { LikeButton } from "../../button/LikeBtn";
 import { BuyButton } from "../../button/BuyBtn";
-import { useLanguage } from "@/components/hook/useContextLanguge";
 import KarmaRating from "../../Rating";
-
-import {
-  PERSONA_DICTIONARY,
-  PersonaItem,
-} from "@/constants/main/AiReviewSelect";
-import { usePersona } from "@/components/Context/usePersonaContext";
-import {
-  createPost,
-  fetchPostByTitleAndThumbnail,
-} from "@/lib/supabase/supabase";
 import AuthButton from "../../button/AuthBtn";
-import { DETAIL_MODAL_DICTIONARY } from "@/constants/common/Modal/DetailModal/detailModal";
 import PersonaSelectModal from "../GlobalModal/SelectReviewerModal";
-import { useAiReview } from "@/components/hook/useAiReview";
 import { Thumbnail } from "../../Product/Thumbnail";
 import { Title } from "../../Product/Title";
 import { Contents } from "../../Product/Contents";
@@ -34,7 +19,23 @@ import { Price } from "../../Product/Price";
 import { Created } from "../../Product/Created";
 import { AiThumbnail } from "../../AiReviewer/ReviewerThumbnail";
 import { Authors } from "../../Product/Authors";
-import Link from "next/link";
+
+import styles from "./index.module.css";
+
+import { useAiReview } from "@/components/hook/useAiReview";
+import { DETAIL_MODAL_DICTIONARY } from "@/constants/common/Modal/DetailModal/detailModal";
+import {
+  createPost,
+  fetchPostByTitleAndThumbnail,
+} from "@/lib/supabase/supabase";
+import { usePersona } from "@/components/Context/usePersonaContext";
+import {
+  PERSONA_DICTIONARY,
+  PersonaItem,
+} from "@/constants/main/AiReviewSelect";
+import { useLanguage } from "@/components/hook/useContextLanguge";
+import { useModalStack } from "@/components/hook/useContextModal";
+import { Book } from "@/types/book";
 import { ReadRating } from "@/lib/api/ratingAction";
 import { AiReviewItem } from "@/types/aireviewitem";
 
@@ -107,6 +108,7 @@ export default function DetailModal({ data }: DetailModalProps) {
         data.title,
         data.isbn,
       );
+
       return postData || [];
     },
     enabled: !!data?.title && !!data?.isbn,
@@ -114,11 +116,12 @@ export default function DetailModal({ data }: DetailModalProps) {
   });
 
   // 평점 조회 Query
-  const { data: ratingData = [] } = useQuery<any>({
+  const { data: ratingData = [] } = useQuery<number>({
     queryKey: ["rating", data?.title, data?.isbn],
     queryFn: async () => {
       if (!data?.title || !data?.isbn) return [];
       const postData = await ReadRating(data.title, data.isbn);
+
       return postData || [];
     },
     enabled: !!data?.title && !!data?.isbn,

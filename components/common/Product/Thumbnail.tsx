@@ -1,6 +1,8 @@
-import { Book } from "@/types/book";
 import Image from "next/image";
+
 import { Skeleton } from "../Skeleton";
+
+import { Book } from "@/types/book";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 
 const altText = {

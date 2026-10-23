@@ -1,9 +1,11 @@
 "use client";
 
+import type { Session } from "@supabase/supabase-js";
+
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/client";
-import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
+
+import { supabase } from "@/lib/supabase/client";
 
 type SupabaseContext = {
   supabase: typeof supabase;

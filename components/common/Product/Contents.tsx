@@ -1,5 +1,4 @@
 import { Book } from "@/types/book";
-import { Skeleton } from "../Skeleton";
 
 export const Contents: React.FC<{
   data: Book | null;

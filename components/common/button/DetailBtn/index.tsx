@@ -1,8 +1,9 @@
-import { useModalStack } from "@/components/hook/useContextModal";
-import { Book } from "@/types/book";
-import Link from "next/link";
 import React from "react";
+
 import DetailModal from "../../Modal/DetailModal";
+
+import { Book } from "@/types/book";
+import { useModalStack } from "@/components/hook/useContextModal";
 
 interface BuyButtonProps {
   data: Book;

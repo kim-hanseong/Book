@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import classNames from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
+
 import styles from "./index.module.css";
+
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import {
   PERSONA_DICTIONARY,

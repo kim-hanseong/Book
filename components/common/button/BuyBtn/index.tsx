@@ -2,11 +2,13 @@ import React from "react";
 import clsx from "clsx";
 import { IoCart, IoCartOutline } from "react-icons/io5"; // 카트 이모지 (react-icons/io5)
 
-import styles from "./index.module.css";
 import AuthButton from "../AuthBtn";
+import CartSuccessModal from "../../Modal/Arlam/AddToCartModal";
+
+import styles from "./index.module.css";
+
 import { useShopHandler } from "@/Hook/BuyBtn/useBuyHandler";
 import { Book } from "@/types/book";
-import CartSuccessModal from "../../Modal/Arlam/AddToCartModal";
 import { useModalStack } from "@/components/hook/useContextModal";
 
 /**

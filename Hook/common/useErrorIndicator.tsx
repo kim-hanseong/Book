@@ -1,5 +1,7 @@
 import { useEffect } from "react";
+
 import { useMultiModal } from "./useMultiModal"; // 네가 만든 멀티모달 훅
+
 import { MODAL_TYPES } from "@/components/common/ModalRegistry/modaltype"; // 네 모달 타입들
 
 // error 객체에 status가 있을 수 있다고 가정

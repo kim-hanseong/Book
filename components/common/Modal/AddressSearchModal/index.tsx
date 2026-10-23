@@ -2,13 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-import styles from "./index.module.css";
-import { useModalStack } from "@/components/hook/useContextModal";
-import { CloseButton } from "../../button/CloseBtn";
 import { useQuery } from "@tanstack/react-query";
+
+import { CloseButton } from "../../button/CloseBtn";
+
+import styles from "./index.module.css";
+
+import { useModalStack } from "@/components/hook/useContextModal";
 import { KakaoAddress } from "@/lib/kakao/addressApi";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { ADDRESS_SEARCH_DICTIONARY } from "@/constants/common/Modal/AddressSearchModal/addressSearchModal";
+import { Address } from "@/types/address";
 
 export default function AddressSearchModal({
   onChangeAddress,
@@ -70,7 +74,6 @@ export default function AddressSearchModal({
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={t.placeholder}
             autoComplete="off"
-            autoFocus
           />
         </div>
 
@@ -104,7 +107,7 @@ export default function AddressSearchModal({
                 {isLoading ? t.searching : t.resultCount(searchResults.length)}
               </div>
               <div className={styles.smResults}>
-                {searchResults.map((item: any, idx: number) => (
+                {searchResults.map((item: Address, idx: number) => (
                   <div key={idx} className={styles.addressItem}>
                     <button
                       className={styles.itemBody}

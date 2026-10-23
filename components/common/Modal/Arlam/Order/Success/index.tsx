@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { useModalStack } from "@/components/hook/useContextModal";
-import { Book } from "@/types/book";
-
 import styles from "./index.module.css";
+
+import { useModalStack } from "@/components/hook/useContextModal";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { ORDER_SUCCESS_DICTIONARY } from "@/constants/common/Alram/Order/orderSiccessArlam";
 

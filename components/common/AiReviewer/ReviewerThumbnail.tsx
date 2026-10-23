@@ -1,5 +1,7 @@
 import Image from "next/image";
+
 import { Skeleton } from "../Skeleton";
+
 import { useLanguage } from "@/components/hook/useContextLanguge";
 
 const altText = {

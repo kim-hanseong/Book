@@ -28,6 +28,7 @@ export async function UserAiReviewerDataBase(): Promise<
 
   if (error) {
     console.error(error);
+
     return [];
   }
 
@@ -85,6 +86,7 @@ export async function AddUserAiReviewer(ai: string) {
       .single();
 
     if (updateError) return { success: false, error: updateError };
+
     return { success: true, data, error: null };
   }
 
@@ -100,5 +102,6 @@ export async function AddUserAiReviewer(ai: string) {
     .single();
 
   if (insertError) return { success: false, error: insertError };
+
   return { success: true, data, error: null };
 }

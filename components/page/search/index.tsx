@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+
 import styles from "./index.module.css";
+
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { SEARCH_DICTIONARY } from "@/constants/search/search";
 import { Book } from "@/types/book";
@@ -17,10 +21,9 @@ import { useMatchedPersona } from "@/components/hook/useMatchedPersona";
 import { AiThumbnail } from "@/components/common/AiReviewer/ReviewerThumbnail";
 import { Authors } from "@/components/common/Product/Authors";
 import { FocusBtn } from "@/components/common/button/FocusBtn";
-import { useQuery } from "@tanstack/react-query";
 import { KakaoBookSearch } from "@/lib/kakao/bookApi";
 import { useRecentSearches } from "@/components/hook/useRecentSearch";
-import { useRouter } from "next/navigation";
+
 
 export interface BookWithReviewer extends Book {
   reviewer: AiReviewItem; // string 또는 AiReviewItem[]
@@ -78,6 +81,7 @@ export default function SearchResultPage({
       if (!query.trim()) return;
       addSearchTitle(query);
       const encodedQuery = encodeURIComponent(query);
+
       router.push(`/search/${encodedQuery}`);
     },
     [query, addSearchTitle, router],
@@ -283,7 +287,7 @@ export default function SearchResultPage({
 
                 <div className={styles.rSide}>
                   <KarmaRating rating={item.averageRating} />
-                  <div className={styles.rCount}></div>
+                  <div className={styles.rCount} />
                   <div className={styles.rPrice}>
                     <Price data={item} className={styles.rPrice} />
                   </div>
@@ -314,6 +318,7 @@ const FocusCuratorList = React.memo(function FocusCuratorList({
   // 💡 curatorList가 배열이 아닐 경우를 대비한 안전성 방어막 코드
   const safeList: AiReviewItem[] = useMemo(() => {
     if (!Array.isArray(curatorList)) return [];
+
     return Array.from(
       new Map(curatorList.map((item) => [item.reviewer, item])).values(),
     );

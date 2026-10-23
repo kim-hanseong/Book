@@ -9,6 +9,7 @@ export function useRecentSearches() {
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
+
       if (saved) {
         setRecentTitles(JSON.parse(saved));
       }
@@ -19,6 +20,7 @@ export function useRecentSearches() {
 
   const addSearchTitle = (title: string) => {
     const trimmed = title;
+
     if (!trimmed) return;
 
     setRecentTitles((prev) => {
@@ -30,6 +32,7 @@ export function useRecentSearches() {
       } catch (e) {
         console.error("Failed to save recent search to localStorage", e);
       }
+
       return next;
     });
   };
@@ -37,11 +40,13 @@ export function useRecentSearches() {
   const removeSearchTitle = (title: string) => {
     setRecentTitles((prev) => {
       const next = prev.filter((item) => item !== title);
+
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       } catch (e) {
         console.error("Failed to remove recent search", e);
       }
+
       return next;
     });
   };

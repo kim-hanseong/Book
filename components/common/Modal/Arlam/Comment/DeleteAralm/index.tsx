@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
+
 import styles from "./index.module.css";
+
 import { useModalStack } from "@/components/hook/useContextModal";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { COMMENT_DELETE_DICTIONARY } from "@/constants/common/Alram/Comment/Delete/commentDeleteArlam";
-import { AiReviewItem } from "@/types/aireviewitem";
 
 interface CommentDeleteModalProps {
   onConfirm: () => Promise<void> | void;
@@ -39,6 +40,7 @@ export default function CommentDeleteModal({
       const sx = Math.cos(a) * d;
       const sy = Math.sin(a) * d;
       const dr = document.createElement("span");
+
       dr.className = styles.droplet;
       dr.style.left = `${cx}px`;
       dr.style.top = `${cy}px`;

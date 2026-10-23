@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import clsx from "clsx";
+
 import styles from "./index.module.css";
+
 import { useModalStack } from "@/components/hook/useContextModal";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { COMMENT_SUCCESS_DICTIONARY } from "@/constants/common/Alram/Comment/Success/commentSuccessArlam";
@@ -32,7 +33,7 @@ export default function CommentSuccessModal() {
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <polyline points="20 6 9 17 4 12"></polyline>
+            <polyline points="20 6 9 17 4 12" />
           </svg>
         </div>
 

@@ -1,7 +1,8 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { SUPABASE_TABLES } from "../supabase/table";
+
+import { createClient } from "@/lib/supabase/server";
 import { Book } from "@/types/book";
 import { comment } from "@/types/comment";
 
@@ -20,6 +21,7 @@ export async function ReadPost(
 
   if (error) {
     console.error("ReadPost Error:", error);
+
     return [];
   }
 
@@ -90,6 +92,7 @@ export async function DeletePost(id: number) {
 
   if (error) {
     console.error("DeletePost 실패:", error);
+
     return { data: null, error };
   }
 
@@ -117,6 +120,7 @@ export async function ReadUserPost() {
 
   if (error) {
     console.error("Failed to read user post:", error);
+
     return [];
   }
 

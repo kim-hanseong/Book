@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
+
 import { Language } from "@/types/il8n";
 import {
   HEADER_DICTIONARY,
@@ -41,6 +42,7 @@ export function LanguageProvider({
 
   const toggleLang = () => {
     const nextLang = lang === "ko" ? "en" : "ko";
+
     setLang(nextLang);
   };
 
@@ -59,8 +61,10 @@ export function LanguageProvider({
 
 export function useLanguage() {
   const context = useContext(LanguageContext);
+
   if (!context) {
     throw new Error("useLanguage must be used within a LanguageProvider");
   }
+
   return context;
 }

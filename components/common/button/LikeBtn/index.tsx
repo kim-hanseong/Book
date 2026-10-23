@@ -2,8 +2,10 @@ import { CiHeart } from "react-icons/ci";
 import { AiFillHeart } from "react-icons/ai";
 import clsx from "clsx";
 
-import styles from "./index.module.css";
 import AuthButton from "../AuthBtn";
+
+import styles from "./index.module.css";
+
 import { useLikeHandler } from "@/Hook/LikeBtn/useLikeHandler";
 import { Book } from "@/types/book";
 

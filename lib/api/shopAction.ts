@@ -1,7 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+
 import { SUPABASE_TABLES } from "../supabase/table";
+
 import { createClient } from "@/lib/supabase/server";
 import { Book } from "@/types/book";
 
@@ -60,13 +62,13 @@ export async function addToCartApi(item: Book) {
 
     if (error) {
       console.error("📛 Supabase AddShop Insert Error:", error.message);
+
       return { error: error.message };
     }
 
     return { success: true, data };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("📛 AddShop Unexpected Error:", err);
-    return { error: err.message || "장바구니 추가 중 오류가 발생했습니다." };
   }
 }
 // 3. 장바구니 아이템 수량/정보 업데이트
@@ -75,6 +77,7 @@ export async function UpdateShop(item: Book) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (!user) return { error: "로그인이 필요합니다." };
 
   const { error } = await supabase
@@ -86,6 +89,7 @@ export async function UpdateShop(item: Book) {
     .eq("user_id", user.id);
 
   if (error) return { error: error.message };
+
   return { success: true };
 }
 
@@ -95,6 +99,7 @@ export async function removeFromCartApi(book: Book) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (!user) return { error: "로그인이 필요합니다." };
 
   // thumbnail 값이 없는 경우 처리
@@ -110,10 +115,12 @@ export async function removeFromCartApi(book: Book) {
 
   if (error) {
     console.error("Error removing shop item:", error.message);
+
     return { error: "장바구니 삭제에 실패했습니다." };
   }
 
   revalidatePath("/bestseller");
+
   return { success: true };
 }
 
@@ -123,6 +130,7 @@ export async function ShopDBAdd(items: Book[] | Book) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (!user) return { error: "로그인이 필요합니다." };
 
   const itemsArray = Array.isArray(items) ? items : [items];

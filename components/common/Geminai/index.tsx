@@ -36,6 +36,7 @@ export default function GeminiChat() {
         model: "gemini-3.6-flash",
         contents: prompt,
       });
+
       setResponse(result.text);
     } catch (error) {
       console.error("Gemini API Error:", error);

@@ -2,10 +2,10 @@ import React, {
   createContext,
   useContext,
   useState,
-  useRef,
   useCallback,
   ReactNode,
 } from "react";
+
 import useOutsideClickHandler from "@/Hook/common/useModalOutSideRef";
 
 // --- 1. Context 타입 정의 ---
@@ -91,8 +91,10 @@ export const SelectGroupProvider: React.FC<SelectGroupProviderProps> = ({
 // --- 4. Custom Hook 생성 ---
 export const useSelectGroup = () => {
   const context = useContext(SelectGroupContext);
+
   if (!context) {
     throw new Error("useSelectGroup must be used within a SelectGroupProvider");
   }
+
   return context;
 };

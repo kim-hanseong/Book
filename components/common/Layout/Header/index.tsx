@@ -1,24 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { Globe, Menu, Search, ShoppingBag, User } from "lucide-react";
+import { Globe, Search, ShoppingBag, User } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
-import { DEFAULT_NAV_ITEMS, HEADER_DICTIONARY } from "@/constants/navigation";
-import styles from "./index.module.css";
 import Button from "../../button/EffectBtn";
-import { useModalStack } from "@/components/hook/useContextModal";
 import SearchModal from "../../Modal/GlobalModal/SearchModal";
+import AuthButton from "../../button/AuthBtn";
+import ShopModal from "../../Modal/ShopModal";
+
+import styles from "./index.module.css";
+
+import { HEADER_DICTIONARY } from "@/constants/navigation";
+import { useModalStack } from "@/components/hook/useContextModal";
 import { Language } from "@/types/il8n";
 import { useLanguage } from "@/components/hook/useContextLanguge";
-import AuthButton from "../../button/AuthBtn";
 import { Book } from "@/types/book";
 
 // 🎯 React Query 캐시 연결용 import 추가
-import { useQuery } from "@tanstack/react-query";
+
 import { queryKeys } from "@/lib/query/querykeys";
 import { fetchBuyList } from "@/lib/query/Buy/fetchBuy";
-import ShopModal from "../../Modal/ShopModal";
-import { useRouter } from "next/navigation";
 import { logout } from "@/lib/supabase/supabase";
 
 export default function Header() {

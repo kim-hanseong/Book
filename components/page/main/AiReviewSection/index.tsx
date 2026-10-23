@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import React, { useMemo } from "react";
+
 import styles from "./index.module.css";
+
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { AI_REVIEW_SECTION_DICTIONARY } from "@/constants/main/AiReview";
 

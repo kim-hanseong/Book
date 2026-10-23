@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useLanguage } from "@/components/hook/useContextLanguge";
+
 import styles from "./index.module.css";
+
+import { useLanguage } from "@/components/hook/useContextLanguge";
 import { NOT_FOUND_DICTIONARY } from "@/constants/404";
 
 interface RaindropData {
@@ -100,6 +102,7 @@ const RainEffect = () => {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+
     if (reduceMotion) return;
 
     let timeoutId: NodeJS.Timeout;
@@ -123,6 +126,7 @@ const RainEffect = () => {
     };
 
     timeoutId = setTimeout(spawnRaindrop, 800);
+
     return () => clearTimeout(timeoutId);
   }, []);
 
@@ -169,6 +173,7 @@ const WaterFxButton = ({ href, label, isPrimary }: WaterButtonProps) => {
     for (let i = 0; i < 6; i++) {
       const angle = Math.random() * Math.PI * 2;
       const dist = 14 + Math.random() * 20;
+
       newEffects.push({
         id: Date.now() + Math.random(),
         type: "droplet",

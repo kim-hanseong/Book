@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+
 import { PersonaItem } from "@/constants/main/AiReviewSelect";
 import { AiReviewItem } from "@/types/aireviewitem";
 import { Book } from "@/types/book";
@@ -10,7 +11,7 @@ interface DislikedBookItem {
 }
 
 interface UseAiReviewParams {
-  shopData?: any;
+  shopData?: Book;
   activePersona: PersonaItem;
   lang: string;
   selectedPersonaId?: string;
@@ -26,7 +27,7 @@ export function useAirecommend({
   dislikedBooks = [],
 }: UseAiReviewParams) {
   const queryClient = useQueryClient();
-  const [reviewStatus, setReviewStatus] = useState<any>("idle");
+  const [reviewStatus, setReviewStatus] = useState("idle");
   const [displayedText, setDisplayedText] = useState("");
   const [personaRating, setPersonaRating] = useState<number | null>(null);
 
@@ -55,6 +56,7 @@ export function useAirecommend({
     typingTimerRef.current = setInterval(() => {
       if (index < fullText.length) {
         const nextChar = fullText.charAt(index);
+
         // prev 상태 의존성 없이 fullText.slice() 방식으로 정확히 가져오기
         setDisplayedText(fullText.slice(0, index + 1));
         index++;

@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import Image from "next/image";
 import classNames from "classnames";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Types
+import styles from "./index.module.css";
+
 import { Book } from "@/types/book";
 import { AiReviewItem } from "@/types/aireviewitem";
 
@@ -20,7 +22,6 @@ import { fetchPostByTitleAndThumbnail } from "@/lib/supabase/supabase";
 import { DeletePost, ReadPost } from "@/lib/api/postAction";
 
 // Styles
-import styles from "./index.module.css";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { usePersona } from "@/components/Context/usePersonaContext";
 import { useModalStack } from "@/components/hook/useContextModal";
@@ -73,6 +74,7 @@ interface FocusPageProps {
 
 function formatDate(datetime?: Date) {
   if (!datetime) return "-";
+
   return new Intl.DateTimeFormat("ko-KR", {
     year: "numeric",
     month: "2-digit",
@@ -136,6 +138,7 @@ export default function FocusPage({
         data.title,
         data.isbn,
       );
+
       return postData || [];
     },
     initialData: AiReviewData,
@@ -151,6 +154,7 @@ export default function FocusPage({
       queryFn: async () => {
         if (!data?.title || !data?.isbn) return [];
         const postData = await ReadPost(data.title, data.isbn);
+
         return postData || [];
       },
       initialData: CommentData,
@@ -171,10 +175,12 @@ export default function FocusPage({
           onConfirm={async () => {
             openModal("loading", <LoadingModal />);
             const { error } = await DeletePost(commentId);
+
             closeModal();
 
             if (error) {
               openModal("loading", <ErrorModal />);
+
               return;
             }
 
@@ -304,6 +310,7 @@ const Navigation = React.memo(() => {
     </nav>
   );
 });
+
 Navigation.displayName = "Navigation";
 
 const SectionHeader = React.memo(
@@ -325,6 +332,7 @@ const SectionHeader = React.memo(
     );
   },
 );
+
 SectionHeader.displayName = "SectionHeader";
 
 const BookSpecGrid = React.memo(({ data }: { data: Book }) => {
@@ -348,6 +356,7 @@ const BookSpecGrid = React.memo(({ data }: { data: Book }) => {
     </div>
   );
 });
+
 BookSpecGrid.displayName = "BookSpecGrid";
 
 const CuratorSection = React.memo(
@@ -462,6 +471,7 @@ const CuratorSection = React.memo(
     );
   },
 );
+
 CuratorSection.displayName = "CuratorSection";
 
 const UserAiStateItem = React.memo(
@@ -481,6 +491,7 @@ const UserAiStateItem = React.memo(
     );
   },
 );
+
 UserAiStateItem.displayName = "UserAiStateItem";
 
 const UserAiState = React.memo(({ list }: { list: UserReviewerStatItem[] }) => {
@@ -492,6 +503,7 @@ const UserAiState = React.memo(({ list }: { list: UserReviewerStatItem[] }) => {
     </div>
   );
 });
+
 UserAiState.displayName = "UserAiState";
 
 const FocusCuratorSection = React.memo(
@@ -509,6 +521,7 @@ const FocusCuratorSection = React.memo(
         0,
         3,
       );
+
       return Array.from(
         new Map(curatorList.map((item) => [item.reviewer, item])).values(),
       );
@@ -543,6 +556,7 @@ const FocusCuratorSection = React.memo(
     );
   },
 );
+
 FocusCuratorSection.displayName = "FocusCuratorSection";
 
 const FocusCuratorList = React.memo(
@@ -558,6 +572,7 @@ const FocusCuratorList = React.memo(
     );
   },
 );
+
 FocusCuratorList.displayName = "FocusCuratorList";
 
 const FocusCuratorItem = React.memo(
@@ -580,6 +595,7 @@ const FocusCuratorItem = React.memo(
     );
   },
 );
+
 FocusCuratorItem.displayName = "FocusCuratorItem";
 
 const FocusCuratorEmpty = React.memo(() => {
@@ -595,6 +611,7 @@ const FocusCuratorEmpty = React.memo(() => {
     </div>
   );
 });
+
 FocusCuratorEmpty.displayName = "FocusCuratorEmpty";
 
 const ReaderCommentsSection = React.memo(
@@ -654,6 +671,7 @@ const ReaderCommentsSection = React.memo(
     );
   },
 );
+
 ReaderCommentsSection.displayName = "ReaderCommentsSection";
 
 const ReaderCommentsEmpty = React.memo(() => {
@@ -673,6 +691,7 @@ const ReaderCommentsEmpty = React.memo(() => {
     </div>
   );
 });
+
 ReaderCommentsEmpty.displayName = "ReaderCommentsEmpty";
 
 const AIReviewHeader = React.memo(
@@ -693,6 +712,7 @@ const AIReviewHeader = React.memo(
     );
   },
 );
+
 AIReviewHeader.displayName = "AIReviewHeader";
 
 const ReviewPanelLoading = React.memo(() => {
@@ -712,6 +732,7 @@ const ReviewPanelLoading = React.memo(() => {
     </div>
   );
 });
+
 ReviewPanelLoading.displayName = "ReviewPanelLoading";
 
 const AIReviewPanelEmpty = React.memo(() => {
@@ -731,6 +752,7 @@ const AIReviewPanelEmpty = React.memo(() => {
     </div>
   );
 });
+
 AIReviewPanelEmpty.displayName = "AIReviewPanelEmpty";
 
 const AIReviewPanelItem = React.memo(({ item }: { item: AiReviewItem }) => {
@@ -766,6 +788,7 @@ const AIReviewPanelItem = React.memo(({ item }: { item: AiReviewItem }) => {
     </div>
   );
 });
+
 AIReviewPanelItem.displayName = "AIReviewPanelItem";
 
 const AIReviewPanelList = React.memo(
@@ -779,6 +802,7 @@ const AIReviewPanelList = React.memo(
     );
   },
 );
+
 AIReviewPanelList.displayName = "AIReviewPanelList";
 
 const StickyBar = React.memo(({ data }: { data: Book }) => {
@@ -798,4 +822,5 @@ const StickyBar = React.memo(({ data }: { data: Book }) => {
     </div>
   );
 });
+
 StickyBar.displayName = "StickyBar";

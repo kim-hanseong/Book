@@ -1,6 +1,7 @@
 "use server";
 
 import { SUPABASE_TABLES } from "../supabase/table";
+
 import { createClient } from "@/lib/supabase/server";
 import { Address } from "@/types/address";
 
@@ -23,6 +24,7 @@ export async function AddressDataBase(): Promise<Address | null> {
 
   if (error) {
     console.error(error.message);
+
     return null;
   }
 
@@ -49,6 +51,7 @@ export async function AddAddressDataBase(
 
   if (resetError) {
     console.error("기본 배송지 초기화 실패:", resetError.message);
+
     return null;
   }
 
@@ -71,6 +74,7 @@ export async function AddAddressDataBase(
 
   if (error) {
     console.error("배송지 추가 실패:", error.message);
+
     return null;
   }
 
@@ -93,6 +97,7 @@ export async function getAddressList(): Promise<Address[]> {
 
   if (error) {
     console.error(error.message);
+
     return [];
   }
 
@@ -117,6 +122,7 @@ export async function updateDefaultAddress(targetId: string): Promise<boolean> {
 
   if (resetError) {
     console.error(resetError.message);
+
     return false;
   }
 
@@ -129,6 +135,7 @@ export async function updateDefaultAddress(targetId: string): Promise<boolean> {
 
   if (updateError) {
     console.error(updateError.message);
+
     return false;
   }
 
@@ -153,6 +160,7 @@ export async function deleteAddress(targetId: string): Promise<boolean> {
 
   if (error) {
     console.error(error.message);
+
     return false;
   }
 

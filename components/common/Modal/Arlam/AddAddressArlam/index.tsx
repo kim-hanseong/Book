@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useRef } from "react";
+
 import styles from "./index.module.css";
+
 import { useModalStack } from "@/components/hook/useContextModal";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { ADDRESS_DONE_DICTIONARY } from "@/constants/common/Alram/AddAddress/addressDoneModal";
@@ -29,6 +31,7 @@ export default function AddressDoneModal() {
       const sy = Math.sin(angle) * distance;
 
       const dr = document.createElement("span");
+
       dr.className = styles.droplet;
       dr.style.left = `${cx}px`;
       dr.style.top = `${cy}px`;

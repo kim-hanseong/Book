@@ -2,12 +2,16 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { LockKeyhole, Mail } from "lucide-react";
+import Link from "next/link";
+
+import Button from "../../../button/EffectBtn";
+
+import styles from "./index.module.css";
+
 import { useModalStack } from "@/components/hook/useContextModal";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { AUTH_MODAL_DICTIONARY } from "@/constants/loginModal";
-import Button from "../../../button/EffectBtn";
-import styles from "./index.module.css";
-import { LockKeyhole, Mail } from "lucide-react";
 import { signInWithKakao } from "@/lib/supabase/supabase";
 
 // ----------------------------------------------------------------------
@@ -69,6 +73,7 @@ function AuthTabs({ mode, onChangeMode }: AuthTabsProps) {
 
   useEffect(() => {
     const target = mode === "login" ? loginRef.current : signupRef.current;
+
     if (target) {
       setUnderlineStyle({
         left: target.offsetLeft,
@@ -180,9 +185,9 @@ export default function AuthModal() {
               <span className={styles.box} />
               {dict.rememberMe}
             </label>
-            <a className={styles.forgot} href="#">
+            <Link className={styles.forgot} href={"/"}>
               {dict.forgotPassword}
-            </a>
+            </Link>
           </div>
 
           <Button

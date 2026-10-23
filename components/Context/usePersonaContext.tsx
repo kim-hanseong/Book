@@ -18,6 +18,7 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const cachedId = sessionStorage.getItem(STORAGE_KEY);
+
     if (cachedId) {
       setSelectedPersonaIdState(cachedId);
     }
@@ -41,8 +42,10 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
 
 export const usePersona = () => {
   const context = useContext(PersonaContext);
+
   if (!context) {
     throw new Error("usePersona must be used within a PersonaProvider");
   }
+
   return context;
 };

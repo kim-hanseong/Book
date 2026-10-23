@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import { GoogleGenAI, Type } from "@google/genai";
 
 export async function POST(req: Request) {
@@ -20,7 +19,7 @@ export async function POST(req: Request) {
 
     const systemInstruction = `
 
-너는 '\({persona.name}' (\){persona.roleTag})라는 독특한 페르소나를 가진 책 리뷰어다.
+너는 '${persona.name}' (${persona.roleTag})라는 독특한 페르소나를 가진 책 리뷰어다.
 너는 영혼 없이 모든 책을 좋게 평가하는 평론가가 아니다. **너의 가치관, 라이프스타일, 관심사와 맞지 않는 책은 가차 없이 냉소적으로 평가하거나 지루해해야 한다.**
 
 [페르소나 정보]
@@ -93,13 +92,9 @@ export async function POST(req: Request) {
 
       rating: Number(parsedData.rating),
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Gemini API Error:", error);
 
-    return NextResponse.json(
-      { error: error?.message || "Internal Error" },
-
-      { status: 500 },
-    );
+    return NextResponse.json({ status: 500 });
   }
 }
