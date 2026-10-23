@@ -32,15 +32,18 @@ export const useToggleLikeMutation = () => {
         queryKeys.likes.list(),
       );
 
-      queryClient.setQueryData<Book[]>(queryKeys.likes.list(), (old = []) => {
-        const isLiked = old.some((v) => v.isbn === newItem.isbn);
+      queryClient.setQueryData<Book[]>(
+        queryKeys.likes.list(),
+        (old: Book[] = []) => {
+          const isLiked = old.some((v) => v.isbn === newItem.isbn);
 
-        if (isLiked) {
-          return old.filter((v) => v.isbn !== newItem.isbn);
-        } else {
-          return [...old, newItem];
-        }
-      });
+          if (isLiked) {
+            return old.filter((v) => v.isbn !== newItem.isbn);
+          } else {
+            return [...old, newItem];
+          }
+        },
+      );
 
       return { previousLikes };
     },
