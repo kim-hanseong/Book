@@ -1,16 +1,5 @@
 /* index.module.css */
 
-:root {
-  --void: #000;
-  --slate: #0c0c0c;
-  --slate-2: #111;
-  --line: rgba(255, 255, 255, 0.16);
-  --glow-dim: rgba(100, 255, 218, 0.35);
-  --bone: #ecebe3;
-  --bone-dim: #8f8d85;
-  --dim: #4d4c47;
-}
-
 .grain {
   position: fixed;
   inset: 0;
