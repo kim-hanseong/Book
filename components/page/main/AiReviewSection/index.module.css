@@ -1,0 +1,148 @@
+/* index.module.css */
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* 1. Header Section */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: var(--bone-dim);
+  border: 1px solid var(--line);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: var(--slate);
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.header h2 {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 300;
+  color: var(--bone);
+  letter-spacing: -0.02em;
+  margin-top: 4px;
+}
+
+.header p {
+  font-family: var(--font-kr-sans);
+  font-size: 0.95rem;
+  color: var(--bone-dim);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+/* 2. MBTI Selector (Chips) */
+.mbtiGroup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 48px;
+  width: 100%;
+}
+
+.mbtiChip {
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--bone-dim);
+  background: var(--slate);
+  border: 1px solid var(--line);
+  padding: 10px 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.mbtiChip:hover {
+  color: var(--bone);
+  border-color: var(--line-strong);
+  background: var(--overlay-white);
+}
+
+.mbtiChip.active {
+  color: var(--void);
+  background: var(--glow);
+  border-color: var(--glow);
+  font-weight: 600;
+  box-shadow: 0 0 20px var(--glow-dim);
+}
+
+/* 3. AI Review Display Card Container */
+.card {
+  width: 100%;
+  min-height: 280px;
+  background: var(--slate);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+}
+
+/* 미니멀한 우측 상단 오프화이트 디테일 라인 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glow-dim));
+}
+
+/* 반응형 모바일 대응 */
+@media (max-width: 768px) {
+  .container {
+    padding: 60px 16px;
+  }
+
+  .header h2 {
+    font-size: 1.65rem;
+  }
+
+  .header p {
+    font-size: 0.85rem;
+  }
+
+  .mbtiGroup {
+    gap: 8px;
+  }
+
+  .mbtiChip {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+
+  .card {
+    padding: 24px;
+  }
+}

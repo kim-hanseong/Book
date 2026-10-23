@@ -1,0 +1,134 @@
+/* ============ KARMA SEGMENT RATING ============ */
+.karmaRatingWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* 🎯 기본 크기를 48px로 설정하되 prop으로 들어오는 size 스타일로 유연하게 변경 */
+  width: 48px;
+  height: 48px;
+  overflow: visible;
+}
+
+.karmaSvgStage {
+  position: relative;
+  /* 🎯 부모(karmaRatingWrap)의 크기를 100% 추종하도록 변경 */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.karmaSvg {
+  width: 100%;
+  height: 100%;
+  /* 선 글로우 효과(drop-shadow)가 잘리지 않도록 허용 */
+  overflow: visible;
+}
+
+/* 기본 세그먼트 트랙 */
+.seg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 3;
+  /* 부드럽게 밝아지는 트랜지션 */
+  transition:
+    stroke 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 활성화 세그먼트 (백색 글로우) */
+.seg.on {
+  stroke: #ffffff;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+}
+
+/* 중앙 점수 텍스트 (세그먼트 채워진 후 페이드인) */
+.karmaCoreScore {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* 🎯 em 단위를 사용하여 원 크기에 맞춰 글자도 자동으로 비율 축소 (48px 기준 ~11px) */
+  font-size: 0.24em;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition:
+    opacity 0.4s ease 0.3s,
+    transform 0.4s ease 0.3s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.karmaCoreScore.showScore {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* 우측 텍스트 정보 */
+.karmaInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.karmaLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: #ecebe3;
+}
+
+.karmaCount {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* 게이지 전체 wrapper */
+.karmaRatingWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  overflow: visible;
+
+  /* 🎯 Container 기준 정의 (자신의 width를 기준 공간으로 설정) */
+  container-type: size;
+}
+
+.karmaSvgStage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 중앙 점수 텍스트 */
+.karmaCoreScore {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  /* 🎯 원 너비(width)의 26% 크기로 글자 크기 자동 반응 */
+  font-size: 26cqw;
+
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition:
+    opacity 0.4s ease 0.3s,
+    transform 0.4s ease 0.3s;
+  pointer-events: none;
+  white-space: nowrap;
+}

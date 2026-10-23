@@ -1,0 +1,28 @@
+export const CART_SUCCESS_DICTIONARY = {
+  ko: {
+    closeModal: "모달 닫기",
+    eyebrow: "— 장바구니에 담았습니다 —",
+    titleLine1: "주문 페이지로",
+    titleLine2: "이동하시겠어요?",
+    descLine1: "지금 바로 결제를 진행하거나,",
+    descLine2: "계속 서가를 둘러볼 수 있어요.",
+    coverAlt: (title: string) => `${title} 표지`,
+    formatQuantity: (qty: number) => `${qty}권`,
+    formatPrice: (amount: number) => `${amount.toLocaleString("ko-KR")} ₩`,
+    continueButton: "계속 둘러보기",
+    orderButton: "주문하러 가기",
+  },
+  en: {
+    closeModal: "Close modal",
+    eyebrow: "— Added to Cart —",
+    titleLine1: "Would you like to go to",
+    titleLine2: "the order page?",
+    descLine1: "You can proceed to payment now,",
+    descLine2: "or continue browsing.",
+    coverAlt: (title: string) => `${title} cover`,
+    formatQuantity: (qty: number) => `${qty} ${qty > 1 ? "copies" : "copy"}`,
+    formatPrice: (amount: number) => `₩${amount.toLocaleString("en-US")}`,
+    continueButton: "Continue Browsing",
+    orderButton: "Proceed to Order",
+  },
+} as const;

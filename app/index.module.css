@@ -1,0 +1,306 @@
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 24px;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift 1.2s steps(4) infinite;
+}
+
+@keyframes grainShift {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-2%, 1%);
+  }
+  100% {
+    transform: translate(1%, -2%);
+  }
+}
+
+/* 배경 게이트 */
+.brokenGate {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -52%);
+  width: min(640px, 130vw);
+  aspect-ratio: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brokenGate svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.bgRing {
+  animation: drift 9s ease-in-out infinite;
+  transform-origin: 400px 400px;
+}
+
+.r2 {
+  animation-duration: 12s;
+  animation-direction: reverse;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(2.5deg);
+  }
+}
+
+/* 낙수 애니메이션 */
+.rainDrops {
+  position: absolute;
+  inset: -10% -10%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.raindrop {
+  position: absolute;
+  top: -30px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, var(--op)) 40%,
+    rgba(255, 255, 255, var(--op)) 88%,
+    transparent
+  );
+  animation: dropFall var(--dur) linear forwards;
+}
+
+@keyframes dropFall {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(var(--drift), var(--fall));
+  }
+}
+
+/* 컨텐츠 */
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.code {
+  font-family: "Silkscreen", monospace;
+  font-size: clamp(56px, 14vw, 108px);
+  letter-spacing: 6px;
+  color: var(--slate);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22);
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
+  line-height: 1;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 4px;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-family: "Silkscreen", monospace;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: var(--bone);
+  margin-bottom: 16px;
+}
+
+.desc {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--bone-dim);
+  max-width: 380px;
+  margin: 0 auto 36px;
+}
+
+.pathNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10.5px;
+  color: var(--dim);
+  letter-spacing: 0.5px;
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  margin-bottom: 40px;
+  background: var(--slate);
+}
+
+.pathNote svg {
+  width: 12px;
+  height: 12px;
+  stroke: var(--dim);
+  fill: none;
+  stroke-width: 1.2;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 버튼 및 물방울 이펙트 */
+.waterFx {
+  position: relative;
+  overflow: hidden;
+}
+
+.droplet {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    #fff,
+    var(--glow) 60%,
+    transparent 100%
+  );
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+  transform: translate(var(--sx), var(--sy)) scale(1);
+  opacity: 0.95;
+  animation: dropletConverge 0.42s cubic-bezier(0.3, 0.85, 0.4, 1) forwards;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes dropletConverge {
+  0% {
+    transform: translate(var(--sx), var(--sy)) scale(1);
+    opacity: 0.95;
+  }
+  70% {
+    transform: translate(calc(var(--sx) * 0.12), calc(var(--sy) * 0.12))
+      scale(0.55);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(0, 0) scale(0);
+    opacity: 0;
+  }
+}
+
+.ripple {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(255, 255, 255, 0.9),
+    var(--glow) 45%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  animation: dropletPool 0.55s cubic-bezier(0.22, 0.85, 0.32, 1) forwards;
+  pointer-events: none;
+  z-index: 4;
+}
+
+@keyframes dropletPool {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.9;
+  }
+  55% {
+    transform: translate(-50%, -50%) scale(9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(15);
+    opacity: 0;
+  }
+}
+
+.btn {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 13px 26px;
+  border: 1px solid var(--line);
+  background: var(--slate);
+  color: var(--bone);
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s,
+    color 0.25s;
+}
+
+.btn:hover {
+  border-color: var(--glow);
+  color: var(--glow);
+  box-shadow: 0 0 16px -2px var(--glow-dim);
+}
+
+.primary {
+  background: var(--glow);
+  color: #000;
+  border-color: var(--glow);
+}
+
+.primary:hover {
+  box-shadow: 0 0 24px -2px var(--glow);
+}
+
+/* 하단 브랜드 로고 */
+.wordmarkFooter {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Silkscreen", monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dim);
+}

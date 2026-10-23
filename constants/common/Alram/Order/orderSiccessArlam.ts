@@ -1,0 +1,28 @@
+export const ORDER_SUCCESS_DICTIONARY = {
+  ko: {
+    closeModal: "모달 닫기",
+    eyebrow: "— 주문이 완료되었습니다 —",
+    titleLine1: "주문이 성공적으로",
+    titleLine2: "완료되었습니다!",
+    descLine1: "주문 상세 내역은",
+    descLine2: "마이페이지에서 확인할 수 있어요.",
+    coverAlt: (title: string) => `${title} 표지`,
+    formatQuantity: (qty: number) => `${qty}권`,
+    formatPrice: (amount: number) => `${amount.toLocaleString("ko-KR")} ₩`,
+    continueButton: "계속 둘러보기",
+    orderButton: "주문 내역 보기",
+  },
+  en: {
+    closeModal: "Close modal",
+    eyebrow: "— Order Completed —",
+    titleLine1: "Your order has been",
+    titleLine2: "successfully placed!",
+    descLine1: "You can check your order details",
+    descLine2: "in your order history.",
+    coverAlt: (title: string) => `${title} cover`,
+    formatQuantity: (qty: number) => `${qty} ${qty > 1 ? "copies" : "copy"}`,
+    formatPrice: (amount: number) => `₩${amount.toLocaleString("en-US")}`,
+    continueButton: "Continue Browsing",
+    orderButton: "View Orders",
+  },
+} as const;

@@ -1,0 +1,271 @@
+/* ==========================================
+   Dark Minimalist Aesthetics: Section Header
+   ========================================== */
+
+.shelvesSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionHead {
+  text-align: center;
+  padding: 0 24px 40px;
+}
+
+.sectionHead .eyebrow {
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: #666666;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.sectionHead h2 {
+  font-size: clamp(20px, 2.5vw, 26px);
+  letter-spacing: 2px;
+  color: #e0e0e0;
+  font-weight: 300;
+}
+
+/* ==========================================
+   Genre Filter (Dark Wireframe Style)
+   ========================================== */
+
+.regions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px 60px;
+}
+
+.regionTab {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888888;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.regionTab .code {
+  color: #444444;
+  margin-right: 8px;
+}
+
+.regionTab:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
+
+.regionTab.active {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.regionTab.active .code {
+  color: #ffffff;
+}
+
+/* ==========================================
+   Grid & Product Card Layout
+   ========================================== */
+
+.LayOut {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 40px 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 28px;
+}
+
+.Wrap {
+  position: relative;
+  background: #0d0e10;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.Wrap:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+}
+
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ==========================================
+   Thumbnail & Dark Overlay
+   ========================================== */
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  background: #000;
+}
+
+.imageWrap img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(1) contrast(1.2) brightness(0.5);
+  transition:
+    filter 0.4s ease,
+    transform 0.4s ease;
+}
+
+.Wrap:hover .imageWrap img {
+  filter: grayscale(0.8) contrast(1.1) brightness(0.65);
+}
+
+/* 반투명 오버레이 */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.82);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imageWrap:hover .overlay {
+  opacity: 1;
+}
+
+/* 액션 버튼 그룹 (직사각형 와이어프레임) */
+.actionGroup {
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.imageWrap:hover .actionGroup {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.actionBtn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  color: #cccccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.actionBtn:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.actionBtn.active {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #000000;
+}
+
+/* ==========================================
+   Product Info & Body
+   ========================================== */
+
+.infoWrap {
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+}
+
+.pearlBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pearlTitle {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  color: #dddddd;
+  font-weight: 400;
+  margin-bottom: 6px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pearlAuthor {
+  font-size: 12px;
+  color: #666666;
+  margin-bottom: 16px;
+}
+
+.pearlMeta {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #555555;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 14px;
+  margin-top: auto;
+}
+
+.pearlPrice {
+  color: #aaaaaa;
+  font-weight: 500;
+}
+
+.pearlTake {
+  margin-top: 14px;
+  width: 100%;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: #888888;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.Wrap:hover .pearlTake {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}

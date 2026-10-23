@@ -1,0 +1,31 @@
+.modalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-top: 8px;
+}
+
+.modalQty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-input);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.modalQty button {
+  background: none;
+  border: none;
+  color: var(--text-dimmed);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.modalQty span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #ffffff;
+}

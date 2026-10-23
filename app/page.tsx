@@ -1,12 +1,20 @@
-"use client";
+import PersonaDetailCard from "@/components/page/main/AiReviewer";
+import AiReviewSection from "@/components/page/main/AiReviewSection";
+import FeaturedBooks from "@/components/page/main/FeaturedBooks";
+import HeroSection from "@/components/page/main/Hero";
+import { fetchBestSeller } from "@/lib/SSG/fetchBestSeller";
 
-import MainPage from "@/components/main";
-import Layout from "@/components/layout/LayOut";
+export default async function Page() {
+  const [bestSellerData] = await Promise.all([
+    fetchBestSeller("best_category_eBook", "추천일순"),
+  ]);
 
-export default function Index() {
   return (
-    <Layout>
-      <MainPage />
-    </Layout>
+    <div>
+      <HeroSection />
+      <AiReviewSection />
+      <PersonaDetailCard />
+      <FeaturedBooks data={bestSellerData} />
+    </div>
   );
 }

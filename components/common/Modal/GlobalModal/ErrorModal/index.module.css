@@ -1,0 +1,127 @@
+.errorOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+}
+
+.errorCard {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  padding: 32px 24px;
+  background: #121212;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.errorClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.errorClose:hover {
+  color: #ffffff;
+}
+
+.errorEmblem {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+}
+
+.errorEmblem svg {
+  width: 100%;
+  height: 100%;
+}
+
+.errorEyebrow {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.errorTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.errorDesc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
+.errorCode {
+  display: inline-block;
+  font-size: 11px;
+  font-family: monospace;
+  color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  letter-spacing: 0.05em;
+}
+
+.errorActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.errorBtn {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.errorBtn.ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.errorBtn.ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.errorBtn.primary {
+  background: #ffffff;
+  color: #000000;
+}
+
+.errorBtn.primary:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* 특수 효과용 클래스 (필요에 따라 이펙트 추가 가능) */
+.waterFx {
+  position: relative;
+  overflow: hidden;
+}

@@ -1,0 +1,472 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+
+.headerWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 24px;
+  position: relative;
+}
+
+.wordmark {
+  font-family: "Silkscreen", monospace;
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: var(--bone);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--glow);
+  box-shadow: 0 0 8px 2px var(--glow-dim);
+  animation: pulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== 아이콘 버튼 (검색/로그인/언어/메뉴 공용) ===== */
+.iconBtn {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--bone-dim);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+/* lucide 아이콘은 기본 stroke-width가 2라서 다른 라인아트보다 두꺼워요.
+   CSS 프레젠테이션 속성은 CSS가 우선하므로 이렇게 얇게 눌러줄 수 있습니다. */
+.iconBtn svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.4;
+}
+
+.iconBtn:hover,
+.iconBtn:focus-visible {
+  color: var(--bone);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 14px -2px var(--glow-dim);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05),
+    transparent 70%
+  );
+  outline: none;
+}
+
+.iconBtn span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: inherit;
+}
+
+/* ===== 검색 (인라인 확장형) ===== */
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.searchInput {
+  width: 0;
+  opacity: 0;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--bone);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  outline: none;
+  transition:
+    width 0.3s ease,
+    opacity 0.3s ease,
+    border-color 0.3s ease,
+    padding 0.3s ease;
+}
+
+.searchInput::placeholder {
+  color: var(--dim);
+}
+
+.searchActive .searchInput {
+  width: 180px;
+  opacity: 1;
+  padding: 8px 10px;
+  margin-right: 8px;
+  border-color: var(--glow);
+  box-shadow: 0 4px 14px -8px var(--glow-dim);
+}
+
+/* ===== 카르마 ===== */
+.karma {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 10.5px;
+  letter-spacing: 1px;
+  color: var(--bone-dim);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.karmaRing {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.karmaRing svg {
+  position: absolute;
+  inset: 0;
+}
+
+.pip {
+  fill: var(--dim);
+}
+
+.pip.on {
+  fill: var(--glow);
+  filter: drop-shadow(0 0 3px var(--glow));
+}
+
+/* ===== 모바일 메뉴 ===== */
+.mobileNav {
+  display: none;
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  flex-direction: column;
+  padding: 18px 40px;
+  gap: 2px;
+  z-index: 90;
+}
+
+.mobileNav a {
+  color: var(--bone-dim);
+  text-decoration: none;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--line);
+  transition:
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.mobileNav a:last-child {
+  border-bottom: none;
+}
+
+.mobileNav a:hover {
+  color: var(--glow);
+  padding-left: 8px;
+}
+
+.navOpen {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 14px 20px;
+  }
+  .karmaText {
+    display: none;
+  }
+  .searchActive .searchInput {
+    width: 130px;
+  }
+  .actions {
+    gap: 4px;
+  }
+}
+
+/* ============ 2. 장바구니 담기 (fly + count pulse) ============ */
+.cartDemo {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  position: relative;
+}
+
+.cartSource {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05),
+    transparent 70%
+  );
+  transition: transform 0.15s ease;
+}
+
+.cartSource:active {
+  transform: scale(0.95);
+}
+
+.cartSource svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--bone, #ecebe3);
+  fill: none;
+  stroke-width: 1.1;
+}
+
+.cartTarget {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-decoration: none;
+}
+
+.cartTarget svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--bone, #ecebe3);
+  fill: none;
+  stroke-width: 1.1;
+}
+
+.cartTarget.pulse {
+  animation: cart-pulse 0.5s ease;
+}
+
+@keyframes cart-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--glow-dim, rgba(255, 255, 255, 0.4));
+  }
+  60% {
+    box-shadow: 0 0 18px 4px var(--glow-dim, rgba(255, 255, 255, 0.4));
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--glow, #ffffff);
+  color: #000;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  padding: 0 4px;
+}
+
+.cartBadge.bump {
+  transform: scale(1.35);
+}
+
+.flyDot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--glow, #ffffff);
+  box-shadow: 0 0 8px var(--glow, #ffffff);
+  pointer-events: none;
+  animation: fly-arc 0.55s cubic-bezier(0.3, 0.6, 0.3, 1) forwards;
+  z-index: 10;
+}
+
+@keyframes fly-arc {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--fx), var(--fy)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* 카트 버튼 컨테이너 */
+.cartIconBtn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.cartIconBtn:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.cartIconBtn svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--bone, #ecebe3);
+  fill: none;
+  stroke-width: 1.1;
+}
+
+/* 🎯 요청하신 뱃지 스타일 */
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--glow, #ffffff);
+  color: #000;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.cartIconBtn:hover,
+.cartIconBtn:focus-visible {
+  color: var(--bone);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 14px -2px var(--glow-dim);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05),
+    transparent 70%
+  );
+  outline: none;
+}
+
+/* 🎯 뱃지 기본 스타일 */
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--glow, #ffffff);
+  color: #000;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+
+  /* 🎯 파동 효과를 내기 위한 pseudo-element 설정 */
+  z-index: 1;
+}
+
+/* 🎯 화이트 링 파동 효과 (Pseudo-element) */
+.cartBadge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px solid var(--glow, #ffffff); /* 화이트 링 테두리 */
+  box-sizing: border-box;
+  pointer-events: none;
+
+  /* 마운트 시 파동 애니메이션 실행 (0.6초) */
+  animation: rippleRing 0.6s ease-out forwards;
+}
+
+/* 🎯 파동 애니메이션 키프레임 */
+@keyframes rippleRing {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    transform: scale(2.4); /* 뱃지 크기의 2.4배까지 파동이 퍼져나감 */
+    opacity: 0; /* 바깥으로 퍼지면서 자연스럽게 투명해짐 */
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0);
+  }
+}

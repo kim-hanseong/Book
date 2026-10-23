@@ -1,0 +1,184 @@
+.moveCard {
+  position: fixed;
+  width: 100%;
+  max-width: 380px;
+  top: 50%;
+  left: 50%;
+
+  padding: 32px 28px 26px;
+  border: 1px solid var(--cart-line);
+  background: var(--bg-modal);
+
+  color: var(--cart-bone);
+  text-align: center;
+  transform: translateY(14px) scale(0.98);
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -54%); /* 살짝 아래에서 올라오는 효과 */
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%); /* 완벽한 화면 중앙 정렬 */
+  }
+}
+.modalOverlay.open .delCard {
+  transform: translateY(0) scale(1);
+}
+
+.delClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--bone-dim, #8f8d85);
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.delClose:hover {
+  color: var(--bone, #ecebe3);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.delEmblem {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+}
+
+.delEmblem svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.delEyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--dim, #4d4c47);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.delTitle {
+  font-family: "Silkscreen", monospace;
+  font-size: 15px;
+  letter-spacing: 0.4px;
+  color: var(--bone, #ecebe3);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.delDesc {
+  font-size: 11.5px;
+  color: var(--bone-dim, #8f8d85);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.delPreview {
+  display: flex;
+  gap: 11px;
+  text-align: left;
+  padding: 13px 15px;
+  margin-bottom: 24px;
+  background: var(--slate-2, #111);
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.16));
+}
+
+.dpAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--slate, #0c0c0c);
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.16));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--bone-dim, #8f8d85);
+}
+
+.dpBody {
+  min-width: 0;
+}
+
+.dpName {
+  font-size: 11px;
+  color: var(--bone, #ecebe3);
+  margin-bottom: 5px;
+}
+
+.dpName span {
+  font-size: 9.5px;
+  color: var(--dim, #4d4c47);
+  margin-left: 6px;
+}
+
+.dpText {
+  font-size: 10.5px;
+  color: var(--bone-dim, #8f8d85);
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.delActions {
+  display: flex;
+  gap: 10px;
+}
+
+.delBtn {
+  flex: 1;
+  padding: 13px 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.delBtn.ghost {
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.16));
+  background: transparent;
+  color: var(--bone-dim, #8f8d85);
+}
+
+.delBtn.ghost:hover,
+.delBtn.ghost:focus-visible {
+  border-color: rgba(255, 255, 255, 0.45);
+  color: var(--bone, #ecebe3);
+  outline: none;
+}
+
+.delBtn.danger {
+  border: 1px solid var(--bone, #ecebe3);
+  background: var(--bone, #ecebe3);
+  color: #000;
+}
+
+.delBtn.danger:hover,
+.delBtn.danger:focus-visible {
+  box-shadow: 0 0 20px -2px rgba(255, 255, 255, 0.55);
+  outline: none;
+}

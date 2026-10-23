@@ -1,0 +1,47 @@
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 50px 40px 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+.brandGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.fw {
+  font-family: "Silkscreen", monospace;
+  color: var(--bone-dim);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.tagline {
+  margin-top: 6px;
+  color: var(--dim);
+}
+
+.footerNav {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.footerNav a {
+  color: var(--dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footerNav a:hover {
+  color: var(--pearl-teal);
+}

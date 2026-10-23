@@ -33,3 +33,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# downloaded images (auto-generated)
+/public/books/*.jpg
+/public/books/*.jpeg
+/public/books/*.png
+/public/books/*.webp

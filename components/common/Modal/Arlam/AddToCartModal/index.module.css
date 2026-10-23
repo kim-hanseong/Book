@@ -1,0 +1,302 @@
+:global(:root) {
+  --cart-void: #000;
+  --cart-slate: #0c0c0c;
+  --cart-slate-2: #111;
+  --cart-line: rgba(255, 255, 255, 0.16);
+  --cart-glow: #64ffda;
+  --cart-glow-dim: rgba(100, 255, 218, 0.35);
+  --cart-bone: #ecebe3;
+  --cart-bone-dim: #8f8d85;
+  --cart-dim: #4d4c47;
+}
+
+.moveCard {
+  position: fixed;
+  width: 100%;
+  max-width: 380px;
+  top: 50%;
+  left: 50%;
+
+  padding: 32px 28px 26px;
+  border: 1px solid var(--cart-line);
+  background: var(--bg-modal);
+
+  color: var(--cart-bone);
+  text-align: center;
+  transform: translateY(14px) scale(0.98);
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -54%); /* 살짝 아래에서 올라오는 효과 */
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%); /* 완벽한 화면 중앙 정렬 */
+  }
+}
+
+@keyframes cardEnter {
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 닫기 버튼 */
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  width: 26px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--cart-bone-dim);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.closeButton:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--cart-bone);
+}
+
+/* 체크 엠블럼 */
+
+.emblem {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 20px;
+}
+
+.emblem svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ringOuter {
+  stroke: rgba(255, 255, 255, 0.22);
+}
+
+.ringFill {
+  stroke: var(--cart-glow);
+  stroke-linecap: round;
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+  filter: drop-shadow(0 0 4px var(--cart-glow-dim));
+}
+
+.show .ringFill {
+  animation: ringDraw 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
+}
+
+.check {
+  stroke: var(--cart-glow);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+}
+
+.show .check {
+  animation: checkDraw 0.35s ease 0.65s forwards;
+}
+
+@keyframes ringDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes checkDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 안내 문구 */
+
+.eyebrow {
+  margin-bottom: 10px;
+  color: var(--cart-dim);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0 0 10px;
+  color: var(--cart-bone);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  line-height: 1.5;
+}
+
+.description {
+  margin: 0 0 22px;
+  color: var(--cart-bone-dim);
+  font-size: 12.5px;
+  line-height: 1.8;
+}
+
+/* 도서 요약 */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 12px 14px;
+  border: 1px solid var(--cart-line);
+  background: var(--cart-slate-2);
+  text-align: left;
+}
+
+.thumbnail {
+  display: flex;
+  width: 34px;
+  height: 46px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--cart-line);
+  background: radial-gradient(
+      ellipse at 50% 40%,
+      rgba(255, 255, 255, 0.06),
+      transparent 60%
+    ),
+    #0a0a0a;
+}
+
+.thumbnail svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: var(--cart-bone);
+  stroke-width: 1;
+}
+
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemInfo {
+  min-width: 0;
+  flex: 1;
+}
+
+.itemTitle {
+  overflow: hidden;
+  margin: 0 0 4px;
+  color: var(--cart-bone);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemMeta {
+  overflow: hidden;
+  margin: 0;
+  color: var(--cart-dim);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemPrice {
+  flex-shrink: 0;
+  margin: 0;
+  color: var(--cart-glow);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 액션 버튼 */
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actionButton {
+  position: relative;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  padding: 13px 0;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ghost {
+  border: 1px solid var(--cart-line);
+  background: transparent;
+  color: var(--cart-bone-dim);
+}
+
+.ghost:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--cart-bone);
+}
+
+.primary {
+  border: 1px solid var(--cart-glow);
+  color: #000;
+}
+
+.primary:hover {
+  box-shadow: 0 0 20px -2px var(--cart-glow);
+}
+
+.actionButton:focus-visible,
+.closeButton:focus-visible {
+  outline: 2px solid var(--cart-glow);
+  outline-offset: 3px;
+}
+
+@media (max-width: 420px) {
+  .moveCard {
+    padding: 30px 18px 22px;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+
+  .actionButton {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moveCard {
+    animation: none;
+    transform: none;
+  }
+
+  .show .ringFill,
+  .show .check {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
