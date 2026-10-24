@@ -1,6 +1,5 @@
 import React from "react";
 import clsx from "clsx";
-import { IoCart, IoCartOutline } from "react-icons/io5"; // 카트 이모지 (react-icons/io5)
 
 import AuthButton from "../AuthBtn";
 import CartSuccessModal from "../../Modal/Arlam/AddToCartModal";
@@ -10,6 +9,7 @@ import styles from "./index.module.css";
 import { useShopHandler } from "@/Hook/BuyBtn/useBuyHandler";
 import { Book } from "@/types/book";
 import { useModalStack } from "@/components/hook/useContextModal";
+import { ShoppingBag } from "lucide-react";
 
 /**
  * 바로구매 버튼입니다. 장바구니에 추가 후 구매페이지로 이동하는 버튼입니다.
@@ -42,7 +42,11 @@ export const BuyButton: React.FC<{
 
   return (
     <AuthButton className={clsx(styles.Like, className)} onClick={handleClick}>
-      {isInCart ? <IoCart color="#fff" /> : <IoCartOutline />}
+      {isInCart ? (
+        <ShoppingBag strokeWidth={0.3} fill="#fff" />
+      ) : (
+        <ShoppingBag strokeWidth={0.3} />
+      )}
     </AuthButton>
   );
 };

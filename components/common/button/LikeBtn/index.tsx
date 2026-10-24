@@ -1,5 +1,4 @@
 import { CiHeart } from "react-icons/ci";
-import { AiFillHeart } from "react-icons/ai";
 import clsx from "clsx";
 
 import AuthButton from "../AuthBtn";
@@ -8,6 +7,7 @@ import styles from "./index.module.css";
 
 import { useLikeHandler } from "@/Hook/LikeBtn/useLikeHandler";
 import { Book } from "@/types/book";
+import { Heart } from "lucide-react";
 
 interface LikeButtonProps {
   data: Book;
@@ -26,7 +26,11 @@ export const LikeButton = ({ data, className, onClick }: LikeButtonProps) => {
 
   return (
     <AuthButton className={clsx(styles.Like, className)} onClick={handleClick}>
-      {isLiked ? <AiFillHeart color="#fff" /> : <CiHeart />}
+      {isLiked ? (
+        <Heart color="#fff" strokeWidth={0.3} />
+      ) : (
+        <Heart strokeWidth={0.3} />
+      )}
     </AuthButton>
   );
 };
