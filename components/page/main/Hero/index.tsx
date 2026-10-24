@@ -181,7 +181,7 @@ function GateRings({
   ringsRef: React.RefObject<HTMLDivElement | null>;
 }) {
   return (
-    <div className={style["gate-rings"]} ref={ringsRef} aria-hidden="true">
+    <div className={style["gate-rings"]} aria-hidden="true">
       <div className={style.band} />
       <svg viewBox="0 0 800 800" width="100%" height="100%">
         <circle
