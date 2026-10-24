@@ -1,7 +1,7 @@
 import styles from "./index.module.css";
 
 interface QuantityControlProps {
-  itemId?: string | number; // 💡 undefined 방어를 위해 optional 또는 union 타입 적용
+  itemId?: string | number;
   quantities: Record<string, number>;
   onQuantityChange: (id: string, newQty: number) => void;
 }
@@ -11,16 +11,20 @@ export default function QuantityControl({
   quantities,
   onQuantityChange,
 }: QuantityControlProps) {
-  // 현재 아이템의 수량을 객체에서 가져옴 (없으면 기본값 1)
-  const currentQty = quantities[itemId] || 1;
+  // 💡 itemId가 undefined일 경우를 대비해 안전하게 문자열로 변환
+  const stringId = itemId !== undefined ? String(itemId) : "";
+
+  // 현재 아이템의 수량을 객체에서 가져옴 (없거나 id가 없으면 기본값 1)
+  const currentQty = stringId ? quantities[stringId] || 1 : 1;
 
   const handleDecrease = () => {
-    if (currentQty <= 1) return;
-    onQuantityChange(itemId, currentQty - 1);
+    if (!stringId || currentQty <= 1) return;
+    onQuantityChange(stringId, currentQty - 1); // 💡 - 연산자 누락 수정
   };
 
   const handleIncrease = () => {
-    onQuantityChange(itemId, currentQty + 1);
+    if (!stringId) return;
+    onQuantityChange(stringId, currentQty + 1);
   };
 
   return (
