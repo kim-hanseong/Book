@@ -100,7 +100,7 @@ export function useAiReview({
 
       // AI 리뷰 데이터
       const aiReview: AiReviewItem = {
-        reviewer: selectedPersonaId || activePersona?.id || "",
+        reviewer: selectedPersonaId,
         rating: computedRating,
         Comment: reviewComment,
       };
@@ -112,15 +112,14 @@ export function useAiReview({
         title: bookData?.title || "",
         reviewer: aiReview.reviewer,
         rating: aiReview.rating,
-        Comment: aiReview.Comment,
-        isbn: bookData.isbn,
+        Comment: aiReview.Comment || "", // 👈 undefined일 경우 빈 문자열 처리
+        isbn: bookData?.isbn || "", // 👈 undefined일 경우 빈 문자열 처리 (bookData가 undefined일 수도 있으니 ?. 사용 권장)
       });
-
       startTypingEffect(reviewComment);
       refreshHistory();
     } catch (error) {
       console.error("Failed to generate or save review:", error);
-      setPersonaRating(4);
+      setPersonaRating(0);
       setReviewStatus("success");
       startTypingEffect(fallbackText);
     }
