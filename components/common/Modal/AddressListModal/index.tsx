@@ -85,7 +85,9 @@ const ReadAddressSection = React.memo(function ReadAddressSection({
     );
   }, [safeAddress]);
 
-  const [selectedId, setSelectedId] = useState(defaultAddressId);
+  const [selectedId, setSelectedId] = useState<string | number | null>(
+    defaultAddressId,
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteErrorId, setDeleteErrorId] = useState<string | number | null>(
@@ -115,9 +117,7 @@ const ReadAddressSection = React.memo(function ReadAddressSection({
 
   // 주소 삭제
   const handleDeleteAddress = useCallback(
-    async (id: string, isDefault: boolean, e?: React.MouseEvent) => {
-      e?.stopPropagation();
-
+    async (id: string, isDefault: boolean) => {
       if (isDefault) {
         setDeleteErrorId(id);
 
@@ -190,7 +190,7 @@ interface AddressCardProps {
   item: Address;
   isSelected: boolean;
   onSelect: (id: string | number) => void;
-  onDelete: (id: string, isDefault: boolean, e?: React.MouseEvent) => void;
+  onDelete: (id: string, isDefault: boolean) => void;
   t: (typeof ADDRESS_LIST_DICTIONARY)["ko"];
 }
 
@@ -204,29 +204,33 @@ const AddressCard = React.memo(function AddressCard({
   return (
     <div
       className={`${styles.amItem} ${isSelected ? styles.checked : ""}`}
-      onClick={() => onSelect(item.id)}
-      role="button"
       style={{ position: "relative" }}
     >
-      <span className={styles.amBox} />
+      <button
+        type="button"
+        className={styles.amItemSelect}
+        onClick={() => onSelect(item.id)}
+      >
+        <span className={styles.amBox} />
 
-      <div className={styles.amItemBody}>
-        <div className={styles.amItemTop}>
-          <span className={styles.amName}>{item.recipient_name}</span>
-          {item.is_default && (
-            <span className={styles.ssBadge}>{t.defaultBadge}</span>
-          )}
+        <div className={styles.amItemBody}>
+          <div className={styles.amItemTop}>
+            <span className={styles.amName}>{item.recipient_name}</span>
+            {item.is_default && (
+              <span className={styles.ssBadge}>{t.defaultBadge}</span>
+            )}
+          </div>
+          <div className={styles.amPhone}>{item.phone_number}</div>
+          <div className={styles.amAddr}>
+            {item.addressinfo}
+            <br />
+            {item.addressdetailinfo}
+          </div>
         </div>
-        <div className={styles.amPhone}>{item.phone_number}</div>
-        <div className={styles.amAddr}>
-          {item.addressinfo}
-          <br />
-          {item.addressdetailinfo}
-        </div>
-      </div>
+      </button>
 
       <DeleteButton
-        onClick={(e) => onDelete(String(item.id), item.is_default, e)}
+        onClick={() => onDelete(String(item.id), item.is_default)}
       />
     </div>
   );
@@ -237,7 +241,7 @@ const ReadAddressSLoading = React.memo(function ReadAddressSLoading() {
     <div className={styles.steps}>
       {[1, 2, 3].map((item) => (
         <div key={item} className={styles.amItem}>
-          <Skeleton width="100%" height="32px" />
+          <Skeleton className={styles.sk} />
         </div>
       ))}
     </div>

@@ -19,7 +19,10 @@
   color: #fff;
   width: 100%;
 }
-
+.modalCover {
+  width: 60px;
+  height: 80px;
+}
 .orderHeader {
   display: flex;
   justify-content: space-between;
@@ -2332,5 +2335,11 @@
   }
   .emptyCenter {
     margin-top: -70px;
+  }
+}
+
+@media (max-width: 859px) {
+  .contentWrapper {
+    flex-direction: column;
   }
 }

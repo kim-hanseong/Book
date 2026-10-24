@@ -19,7 +19,6 @@ import { REVIEW_MODAL_DICTIONARY } from "@/constants/common/Modal/CommentModal/c
 import { AddPost } from "@/lib/api/postAction";
 import { AddRating } from "@/lib/api/ratingAction";
 
-
 export interface ReviewModalProps {
   data: Book;
   maxLength?: number;
@@ -44,8 +43,6 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
 
   const handleSubmit = async () => {
     if (!isValid || isSubmitting) {
-      console.log("유효성 검사 실패:", { isValid, isSubmitting });
-
       return;
     }
 
@@ -53,7 +50,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
       setIsSubmitting(true);
       openModal("loading", <LoadingModal />);
 
-      const { data: result, error } = await AddPost(data, text, rating);
+      const { error } = await AddPost(data, text, rating);
 
       await AddRating(data, rating);
 
@@ -96,8 +93,9 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
 function ReviewBookHeader({ data }: { data: Book }) {
   return (
     <div className={styles.targetbook}>
-      <Thumbnail data={data} className={styles.thumbnail} w={52} h={52} />
-
+      <div className={styles.modalCover}>
+        <Thumbnail data={data} className={styles.thumbnail} w={52} h={52} />
+      </div>
       <div className={styles.tbInfo}>
         <Title data={data} className={styles.title} />
       </div>

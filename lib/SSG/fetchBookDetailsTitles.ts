@@ -10,7 +10,7 @@ export async function fetchBookDetailsByTitles(
   );
 
   return searchResults
-    .map((res, i) => {
+    .map((res) => {
       if (res.status === "fulfilled" && res.value?.[0]) {
         return res.value[0];
       }

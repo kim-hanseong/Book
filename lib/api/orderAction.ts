@@ -5,8 +5,9 @@ import { SUPABASE_TABLES } from "../supabase/table";
 import { createClient } from "@/lib/supabase/server";
 import { Book } from "@/types/book";
 import { Address } from "@/types/address";
+import { OrderItem } from "@/components/page/mypage";
 
-export async function ReadOrder() {
+export async function ReadOrder(): Promise<OrderItem[] | { error: string }> {
   const supabase = await createClient();
 
   const {
@@ -15,14 +16,24 @@ export async function ReadOrder() {
 
   if (!user) return { error: "로그인이 필요합니다." };
 
-  const { data } = await supabase
+  // 💡 현재 시간 기준 3일 전(72시간 전) 날짜 계산
+  const threeDaysAgo = new Date(
+    Date.now() - 3 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+
+  const { data, error } = await supabase
     .from(SUPABASE_TABLES.Order)
-
     .select("*")
-    .order("created_at", { ascending: false })
-    .eq("delivery", false);
+    .eq("delivery", false)
+    .gte("created_at", threeDaysAgo) // 💡 3일 이내에 생성된 데이터만 조회 (3일 지난 건 제외)
+    .order("created_at", { ascending: false });
 
-  return data;
+  if (error) {
+    console.error(error);
+    return { error: "주문 목록을 불러오지 못했습니다." };
+  }
+
+  return (data as OrderItem[]) || [];
 }
 export async function EndOrder() {
   const supabase = await createClient();

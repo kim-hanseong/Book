@@ -1,41 +1,69 @@
+import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { createMiddlewareClient } from "./lib/supabase/middleware";
-
 export async function middleware(request: NextRequest) {
-  const { supabase, response } = createMiddlewareClient(request, {
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  let supabaseResponse = NextResponse.next({
+    request,
   });
 
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => {
+            request.cookies.set(name, value);
+          });
+          supabaseResponse = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) => {
+            supabaseResponse.cookies.set(name, value, options);
+          });
+        },
+      },
+    },
+  );
+
+  // 세션 무결성 검증 (getUser 사용 권장)
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
   const protectedPaths = ["/mypage", "/order"];
 
-  // 1. 비로그인 유저가 보호된 경로 접근 시 -> error 쿼리 파라미터 전달
-  if (!session && protectedPaths.some((path) => pathname.startsWith(path))) {
+  // 1. 비로그인 유저가 보호된 경로 접근 시
+  if (!user && protectedPaths.some((path) => pathname.startsWith(path))) {
     const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.searchParams.set("error", "unauthorized");
 
-    url.pathname = "/login"; // 경로 이동
-    url.searchParams.set("error", "unauthorized"); // 쿼리 추가
-
-    return NextResponse.redirect(url);
+    const redirectResponse = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+    return redirectResponse;
   }
 
-  // 2. 이미 로그인한 유저가 /login, /register 접근 시
-  if (session && (pathname === "/login" || pathname === "/register")) {
+  // 2. 로그인한 유저가 로그인/회원가입 페이지 접근 시
+  if (user && (pathname === "/login" || pathname === "/register")) {
     const url = request.nextUrl.clone();
-
     url.pathname = "/";
     url.searchParams.set("error", "already_logged_in");
 
-    return NextResponse.redirect(url); // rewrite 대신 redirect 권장
+    const redirectResponse = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value);
+    });
+    return redirectResponse;
   }
 
-  return response;
+  return supabaseResponse;
 }
 
 export const config = {

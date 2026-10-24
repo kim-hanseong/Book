@@ -6,7 +6,7 @@ import { ReviewerType } from "@/types/aireviewitem";
 // 💡 반환될 객체의 타입 인터페이스 정의
 // 💡 반환될 객체의 타입 인터페이스 정의
 export interface UserReviewerStatItem {
-  reviewer: ReviewerType;
+  reviewer: string; // 💡 선택적(optional) 속성으로 변경  reviewer: ReviewerType;
   rating: number;
 }
 

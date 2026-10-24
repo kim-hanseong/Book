@@ -87,7 +87,7 @@ export default function PersonaSection() {
             onClick={() => handlePreviewPersona(p.id)}
           >
             <div className={styles.avatarRing}>
-              <AiThumbnail src={p.imageSrc} w={68} h={68} />
+              <AiThumbnail data={p} w={68} h={68} />
               <span className={styles.pulseRing} />
             </div>
             <AiTitle data={p} className={styles.avatarName} />
@@ -139,7 +139,7 @@ function PersonaPortrait({
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{ width: "100%", height: "100%", position: "relative" }}
           >
-            <AiThumbnail src={persona.imageSrc} w={280} h={370} />
+            <AiThumbnail data={persona} w={280} h={370} />
           </motion.div>
         </AnimatePresence>
         <div className={styles.vignette} />

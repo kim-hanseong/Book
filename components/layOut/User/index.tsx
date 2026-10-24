@@ -1,6 +1,7 @@
 // components/layOut/User.tsx (AuthProvider)
 
 "use client";
+
 import React, {
   createContext,
   useState,
@@ -8,12 +9,9 @@ import React, {
   useContext,
   ReactNode,
 } from "react";
+import { User } from "@supabase/supabase-js";
 
-// getUser 함수는 더 이상 필요 없을 수 있습니다.
-// import { checkLogin, getUser, supabase } from "@/lib/supabase/supabase";
-import { User } from "@supabase/supabase-js"; // User 타입은 그대로 사용
-
-import { supabase } from "@/lib/supabase/supabase"; // getUser 제거
+import { supabase } from "@/lib/supabase/supabase";
 
 // initialUser 타입을 서버 컴포넌트의 user 타입과 동일하게 User | null 로 변경 권장
 interface AuthProviderProps {

@@ -3,23 +3,24 @@
    ========================================== */
 .modalContainer {
   position: fixed;
-  width: 100%;
+  width: 90%;
   max-width: 840px;
-  min-height: 470px;
-  background: var(--cart-slate);
+  min-height: 520px;
+  background: var(--cart-slate, #121216);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   padding: 40px;
   box-shadow:
     0 30px 60px rgba(0, 0, 0, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  overflow: hidden;
+  overflow: visible; /* 잘림 방지 */
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   animation: slideDown 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  box-sizing: border-box;
 }
 
-/* 3. 위에서 아래로 나타나는 키프레임 (최종 위치: 화면 정중앙) */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -30,6 +31,7 @@
     transform: translate(-50%, -50%);
   }
 }
+
 .closeBtn {
   position: absolute;
   top: 24px;
@@ -40,6 +42,7 @@
   font-size: 18px;
   cursor: pointer;
   transition: color 0.2s ease;
+  z-index: 20;
 }
 
 .closeBtn:hover {
@@ -51,6 +54,8 @@
    ========================================== */
 .modalHeader {
   margin-bottom: 36px;
+  position: relative;
+  z-index: 1; /* 구슬 호버 시 헤더보다 위에 뜨도록 z-index 낮춤 */
 }
 
 .eyebrow {
@@ -78,6 +83,8 @@
   grid-template-columns: 320px 1fr;
   gap: 32px;
   align-items: center;
+  position: relative;
+  z-index: 5;
 }
 
 /* ==========================================
@@ -87,6 +94,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  overflow: visible;
+  padding: 10px 0; /* 구슬이 위아래로 확대될 여유 공간 확보 */
 }
 
 .orbWrapper {
@@ -97,6 +106,15 @@
   border: none;
   cursor: pointer;
   outline: none;
+  position: relative;
+  z-index: 1;
+  transition: z-index 0.2s ease;
+}
+
+/* 💡 호버/선택되었을 때 레이어 순서를 최상위로 올림 */
+.orbWrapper:hover,
+.orbWrapper.selected {
+  z-index: 10;
 }
 
 .orb {
@@ -113,6 +131,7 @@
   transition:
     transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.3s ease;
+  will-change: transform;
 }
 
 .orbInner {
@@ -125,7 +144,6 @@
   transition: filter 0.3s ease;
 }
 
-/* 유리 구슬 하이라이트/빛 반사 효과 */
 .glassShine {
   position: absolute;
   inset: 0;
@@ -151,12 +169,13 @@
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 /* Hover & Selected States */
 .orbWrapper:hover .orb {
-  transform: translateY(-4px) scale(1.06);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transform: translateY(-6px) scale(1.1);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
 }
 
 .orbWrapper:hover .orbInner {
@@ -168,8 +187,8 @@
 }
 
 .orbWrapper.selected .orb {
-  transform: scale(1.08);
-  box-shadow: 0 0 20px rgba(184, 153, 255, 0.35);
+  transform: scale(1.1);
+  box-shadow: 0 0 24px rgba(184, 153, 255, 0.4);
 }
 
 .orbWrapper.selected .orbRing {
@@ -189,13 +208,14 @@
    Detail Panel (Right Side)
    ========================================== */
 .detailPanel {
-  min-height: 220px;
+  min-height: 240px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   padding: 28px;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .detailCard {
@@ -255,4 +275,86 @@
   font-size: 13px;
   color: rgba(255, 255, 255, 0.85);
   line-height: 1.5;
+}
+
+/* ==========================================
+   Mobile & Tablet Optimization (Max-width: 768px)
+   ========================================== */
+@media (max-width: 768px) {
+  .modalContainer {
+    width: 92%;
+    min-height: auto;
+    padding: 24px 20px;
+    overflow: visible;
+  }
+
+  .closeBtn {
+    top: 16px;
+    right: 16px;
+    font-size: 20px;
+  }
+
+  .modalHeader {
+    margin-bottom: 20px;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .orbGrid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 10px 0;
+  }
+
+  .orb {
+    width: 60px;
+    height: 60px;
+  }
+
+  .orbLabel {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+
+  .detailPanel {
+    min-height: auto;
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+
+  .personaTitle {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .description {
+    font-size: 13px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  .genreTags {
+    margin-bottom: 12px;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 11px;
+  }
+
+  .quoteText {
+    font-size: 12px;
+  }
 }

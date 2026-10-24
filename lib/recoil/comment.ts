@@ -14,11 +14,3 @@ export type ReviewerType =
   | "naruto_slugcat"
   | "relatable_stream"
   | "dreamer_cloud";
-
-const reviewerColumns: ReviewerType[] = [
-  "curator_silent",
-  "analyst_sharp",
-  "naruto_slugcat",
-  "relatable_stream",
-  "dreamer_cloud",
-];

@@ -19,7 +19,30 @@
   gap: 24px;
   position: relative;
 }
+.logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  background-color: #121216; /* 다크 테마 배경 */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* 미세한 테두리 */
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.5); /* 기본 회색 텍스트 */
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
+.logout:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #fff; /* 마우스 올리면 선명한 흰색 */
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.logout:active {
+  transform: scale(0.98); /* 클릭 시 살짝 눌리는 효과 */
+}
 .wordmark {
   font-family: "Silkscreen", monospace;
   font-size: 16px;

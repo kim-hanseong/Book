@@ -25,7 +25,9 @@ export function useAiReview({
   fallbackText = "리뷰를 불러오는 중 오류가 발생했습니다.",
 }: UseAiReviewParams) {
   const queryClient = useQueryClient();
-  const [reviewStatus, setReviewStatus] = useState("idle");
+  const [reviewStatus, setReviewStatus] = useState<
+    "idle" | "error" | "loading" | "success"
+  >("idle");
   const [displayedText, setDisplayedText] = useState("");
   const [personaRating, setPersonaRating] = useState<number | null>(null);
 

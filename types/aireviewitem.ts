@@ -1,4 +1,3 @@
-
 export interface AiReviewItem {
   id: number;
 
@@ -18,6 +17,8 @@ export interface AiReviewItem {
   roleTag?: string;
 
   user_id?: string;
+  created_at?: string;
+
   datetime: Date;
 }
 

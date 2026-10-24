@@ -8,10 +8,6 @@ import { useModalStack } from "@/components/hook/useContextModal";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { ADDRESS_DONE_DICTIONARY } from "@/constants/common/Alram/AddAddress/addressDoneModal";
 
-interface AddressDoneModalProps {
-  onClose?: () => void;
-}
-
 export default function AddressDoneModal() {
   const cardRef = useRef<HTMLDivElement>(null);
   const { closeModal } = useModalStack();

@@ -17,12 +17,10 @@ import { useModalStack } from "@/components/hook/useContextModal";
 import { Language } from "@/types/il8n";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { Book } from "@/types/book";
-
-// 🎯 React Query 캐시 연결용 import 추가
-
 import { queryKeys } from "@/lib/query/querykeys";
 import { fetchBuyList } from "@/lib/query/Buy/fetchBuy";
-import { logout } from "@/lib/supabase/supabase";
+import { logout, supabase } from "@/lib/supabase/supabase";
+import { useSupabase } from "@/components/Auth/AuthProvider";
 
 export default function Header() {
   const { lang, toggleLang } = useLanguage();
@@ -38,6 +36,7 @@ export default function Header() {
       <HeaderWrap>
         <HeaderWordmark />
         <HeaderActions>
+          <LogoutButton />
           <LanguageChangeButton
             onToggle={toggleLang}
             currentLang={lang}
@@ -52,16 +51,23 @@ export default function Header() {
   );
 }
 
-// --- Sub Components ---
 function LogoutButton() {
-  const router = useRouter();
+  const { session } = useSupabase(); // 💡 AuthProvider에서 session 상태 가져오기
 
-  const handleLogout = async () => {
-    const res = await logout();
+  const handleAuthAction = async () => {
+    if (session) {
+      // 1. 로그인 상태인 경우 -> 로그아웃 실행
+      const { error } = await supabase.auth.signOut();
+      window.location.reload();
+    }
   };
-
-  return <button onClick={handleLogout}>로그아웃</button>;
+  return (
+    <AuthButton onClick={handleAuthAction} className={styles.logout}>
+      {session ? "Logout" : "Login"}
+    </AuthButton>
+  );
 }
+
 const HeaderLayout = ({ children }: { children: React.ReactNode }) => (
   <header className={styles.header}>{children}</header>
 );

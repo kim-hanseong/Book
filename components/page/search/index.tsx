@@ -24,7 +24,6 @@ import { FocusBtn } from "@/components/common/button/FocusBtn";
 import { KakaoBookSearch } from "@/lib/kakao/bookApi";
 import { useRecentSearches } from "@/components/hook/useRecentSearch";
 
-
 export interface BookWithReviewer extends Book {
   reviewer: AiReviewItem; // string 또는 AiReviewItem[]
   averageRating: number;
@@ -206,8 +205,9 @@ export default function SearchResultPage({
               <span className={styles.lb}>{dict.sortLabel}</span>
 
               {/* 커스텀 셀렉트 버튼 */}
-              <div
-                role="button"
+              <button
+                type="button"
+                aria-expanded={isSortOpen}
                 className={`${styles.selectTrigger} ${isSortOpen ? styles.active : ""}`}
                 onClick={() => setIsSortOpen((prev) => !prev)}
               >
@@ -233,15 +233,11 @@ export default function SearchResultPage({
                     strokeLinejoin="round"
                   />
                 </svg>
-              </div>
+              </button>
 
               {/* 드롭다운 메뉴 리스트 */}
               {isSortOpen && (
-                <div
-                  role="button"
-                  className={styles.dropdownList}
-                  onMouseDown={(e) => e.preventDefault()}
-                >
+                <div className={styles.dropdownList}>
                   {Object.entries(dict.sortOptions).map(([key, label]) => (
                     <button
                       key={key}
@@ -345,7 +341,7 @@ const FocusCuratorItem = React.memo(function FocusCuratorItem({
   return (
     <div className={styles.reviewWrap}>
       <AiThumbnail
-        src={matchedPersona?.imageSrc}
+        data={matchedPersona}
         w={35}
         h={35}
         className={styles.itemAvatar}
@@ -364,11 +360,7 @@ const SearchResultList = React.memo(function SearchResultList({
   const topBooks = useMemo(() => books.slice(0, 3), [books]);
 
   return (
-    <div
-      role="button"
-      className={styles.searchResults}
-      onMouseDown={(e) => e.preventDefault()} // 👈 이 부분을 추가해주세요!
-    >
+    <div className={styles.searchResults}>
       {topBooks.map((book, idx) => (
         <SearchResultItem key={book.isbn || book.id || idx} book={book} />
       ))}
@@ -384,46 +376,18 @@ const SearchResultItem = React.memo(function SearchResultItem({
   book,
 }: SearchItemProps) {
   return (
-    <FocusBtn data={book} className={styles.searchItem}>
-      <Thumbnail data={book} w={34} h={46} className={styles.searchThumb} />
+    <FocusBtn
+      data={book}
+      className={styles.searchItem}
+      onMouseDown={(event) => event.preventDefault()}
+    >
+      <div className={styles.modalCover}>
+        <Thumbnail data={book} w={34} h={46} />
+      </div>
       <div className={styles.info}>
         <Title data={book} className={styles.t} />
       </div>
       {book.price && <span className={styles.searchPrice}>{book.price}</span>}
     </FocusBtn>
-  );
-});
-
-const SearchEmpty = React.memo(function SearchEmpty({
-  notFoundText,
-  emptyDescText,
-}: {
-  query: string;
-  notFoundText: string;
-  emptyDescText: string;
-}) {
-  return (
-    <div className={styles.searchEmpty}>
-      <svg viewBox="0 0 46 46" fill="none" className={styles.emptySvg}>
-        <circle
-          className={styles.emptyRing}
-          cx="23"
-          cy="23"
-          r="19"
-          stroke="rgba(255,255,255,0.35)"
-          strokeWidth="1"
-        />
-        <circle
-          className={styles.emptyRing}
-          cx="23"
-          cy="23"
-          r="12"
-          stroke="rgba(255,255,255,0.2)"
-          strokeWidth="1"
-        />
-      </svg>
-      <div className={styles.emptyTitle}>{notFoundText}</div>
-      <div className={styles.emptyDesc}>{emptyDescText}</div>
-    </div>
   );
 });

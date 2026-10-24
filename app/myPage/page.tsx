@@ -1,4 +1,4 @@
-import MyArchivePage from "@/components/page/mypage";
+import MyArchivePage, { OrderItem } from "@/components/page/mypage";
 import { ReadLike } from "@/lib/api/likemutate";
 import { EndOrder, ReadOrder } from "@/lib/api/orderAction";
 import { ReadUserPost } from "@/lib/api/postAction";
@@ -35,7 +35,7 @@ export default async function Page() {
 
       // ISBN 매칭 (없으면 검색 결과 첫 번째 항목 반환)
       const matchedBook = item.isbn
-        ? bookList.find((book: Book) => book.isbn?.includes(item.isbn))
+        ? bookList.find((book: Book) => book.isbn?.includes(item.isbn!))
         : bookList[0];
 
       return matchedBook || bookList[0] || null;
@@ -48,10 +48,11 @@ export default async function Page() {
 
   // 💡 [최적화 2] 공통 함수를 사용하여 병렬 처리 및 null 제거(.filter(Boolean))
   const [enrichedEndOrder, Like] = await Promise.all([
-    endOrder && endOrder.length > 0
-      ? Promise.all(endOrder.map(fetchAndMatchBook)).then(
-          (res) => res.filter(Boolean) as Book[],
-        )
+    Array.isArray(endOrder) && endOrder.length > 0
+      ? // 여기에 (item: OrderItem)을 추가합니다.
+        Promise.all(
+          endOrder.map((item: OrderItem) => fetchAndMatchBook(item)),
+        ).then((res) => res.filter(Boolean) as Book[])
       : Promise.resolve([]),
 
     Array.isArray(likeList) && likeList.length > 0
@@ -61,9 +62,11 @@ export default async function Page() {
       : Promise.resolve([]),
   ]);
 
+  const safeOrderList = Array.isArray(orderList) ? orderList : [];
+
   return (
     <MyArchivePage
-      order={orderList}
+      order={safeOrderList}
       mostReviewer={mostReviewer}
       comment={userPosts}
       orderend={enrichedEndOrder}

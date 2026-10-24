@@ -28,7 +28,9 @@
     transform: translate(-50%, -50%); /* 완벽한 화면 중앙 정렬 */
   }
 }
-
+.modalCover {
+  width: 102px;
+}
 /* 모달 오버레이 */
 .modalOverlay {
   inset: 0;

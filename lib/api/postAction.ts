@@ -54,7 +54,7 @@ export async function AddPost(item: Book, content: string, rating: number) {
         title: item.title,
         isbn: item.isbn,
         Comment: content,
-        rating: 4,
+        rating,
         email: user.email, // 실제 로그인한 유저의 이메일 저장
       },
     ])

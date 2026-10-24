@@ -7,14 +7,13 @@ import styles from "./index.module.css";
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import KarmaRating from "@/components/common/Rating";
 import { Book } from "@/types/book";
-import { AiReviewItem } from "@/types/aireviewitem";
 import { useMatchedPersona } from "@/components/hook/useMatchedPersona";
 import { AiThumbnail } from "@/components/common/AiReviewer/ReviewerThumbnail";
 import { Thumbnail } from "@/components/common/Product/Thumbnail";
 import { Title } from "@/components/common/Product/Title";
 import { MY_ARCHIVE_DICTIONARY } from "@/constants/mypage/mypage";
-import { useModalStack } from "@/components/hook/useContextModal";
-import DetailModal from "@/components/common/Modal/DetailModal";
+import { UserReviewerStatItem } from "@/lib/api/userAiState";
+import { DetailBtn } from "@/components/common/button/DetailBtn";
 
 export interface OrderItem {
   id: string | number;
@@ -51,7 +50,7 @@ export default function MyArchivePage({
   orderend,
 }: {
   orderend: Book[];
-  mostReviewer: AiReviewItem[];
+  mostReviewer: UserReviewerStatItem[];
   order: OrderItem[];
   comment: CommentItem[];
   like: Book[];
@@ -59,12 +58,6 @@ export default function MyArchivePage({
   const { lang } = useLanguage();
   const currentLang = (lang === "en" ? "en" : "ko") as "ko" | "en";
   const dict = MY_ARCHIVE_DICTIONARY[currentLang];
-
-  const { openModal } = useModalStack();
-
-  const handleOpenDetailModal = (bookData: Book) => {
-    openModal("detail-modal", <DetailModal data={bookData} />);
-  };
 
   return (
     <div className={styles.wrap}>
@@ -300,13 +293,17 @@ const RecentPurchasesSection = React.memo(function RecentPurchasesSection({
         <span className={styles.rule} />
       </div>
       {reviews.map((item, index) => (
-        <article key={index} className={styles.textReviewPlate}>
-          <div className={styles.plateHeader}>
-            <Thumbnail data={item} w={60} h={80} className="" />
-            <Title className={styles.bookTitle} data={item} />
-          </div>
-          <div className={styles.plateFooter} />
-        </article>
+        <DetailBtn data={item} key={index}>
+          <article className={styles.textReviewPlate}>
+            <div className={styles.plateHeader}>
+              <div className={styles.modalCover}>
+                <Thumbnail data={item} w={60} h={80} />
+              </div>
+              <Title className={styles.bookTitle} data={item} />
+            </div>
+            <div className={styles.plateFooter} />
+          </article>
+        </DetailBtn>
       ))}
     </div>
   );
@@ -319,7 +316,7 @@ const MostUsedReviewerSection = React.memo(function MostUsedReviewerSection({
   reviewers,
   dict,
 }: {
-  reviewers: AiReviewItem[];
+  reviewers: UserReviewerStatItem[];
   dict: (typeof MY_ARCHIVE_DICTIONARY)["ko" | "en"];
 }) {
   const topReviewers = useMemo(() => reviewers.slice(0, 3), [reviewers]);
@@ -360,7 +357,7 @@ const MostUsedReviewerSection = React.memo(function MostUsedReviewerSection({
                     />
                   </div>
                   <span className={styles.barLabel}>
-                    {item.name || item.reviewer?.slice(0, 3)}
+                    {item.reviewer?.slice(0, 3)}
                   </span>
                 </div>
               );
@@ -375,16 +372,12 @@ const MostUsedReviewerSection = React.memo(function MostUsedReviewerSection({
 const UserAiState = React.memo(function UserAiState({
   list,
 }: {
-  list: AiReviewItem[];
+  list: UserReviewerStatItem[];
 }) {
   return (
     <div className={styles.reviewerAvatarStack}>
       {list.map((item, idx) => (
-        <UserAiStateItem
-          key={item.reviewer || item.id}
-          item={item}
-          index={idx}
-        />
+        <UserAiStateItem key={idx} item={item} index={idx} />
       ))}
     </div>
   );
@@ -394,11 +387,10 @@ const UserAiStateItem = React.memo(function UserAiStateItem({
   item,
   index,
 }: {
-  item: AiReviewItem;
+  item: UserReviewerStatItem;
   index: number;
 }) {
   const matchedPersona = useMatchedPersona(item.reviewer);
-  const personaAvatar = matchedPersona?.imageSrc || "/야독.png";
   const sizes = [100, 70, 65];
   const size = sizes[index] ?? 24;
 
@@ -408,7 +400,7 @@ const UserAiStateItem = React.memo(function UserAiStateItem({
       style={{ width: size, height: size }}
     >
       <AiThumbnail
-        src={personaAvatar}
+        data={matchedPersona}
         w={size}
         h={size}
         className={styles.reviewerThumbnail}
@@ -436,16 +428,20 @@ const LikedBooksSection = React.memo(function LikedBooksSection({
         <span className={styles.rule} />
       </div>
       {books.map((item, index) => (
-        <article key={item.isbn || index} className={styles.textReviewPlate}>
-          <div className={styles.plateHeader}>
-            <Thumbnail data={item} w={60} h={80} className="" />
-            <div className={styles.bookInfoGroup}>
-              <Title className={styles.bookTitle} data={item} />
+        <DetailBtn data={item} key={index}>
+          <article className={styles.textReviewPlate}>
+            <div className={styles.plateHeader}>
+              <div className={styles.modalCover}>
+                <Thumbnail data={item} w={60} h={80} className="" />
+              </div>
+              <div className={styles.bookInfoGroup}>
+                <Title className={styles.bookTitle} data={item} />
+              </div>
+              <div className={styles.likeIconWrap} />
             </div>
-            <div className={styles.likeIconWrap} />
-          </div>
-          <div className={styles.plateFooter} />
-        </article>
+            <div className={styles.plateFooter} />
+          </article>
+        </DetailBtn>
       ))}
     </div>
   );

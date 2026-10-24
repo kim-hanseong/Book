@@ -15,7 +15,8 @@ export const Thumbnail: React.FC<{
   w?: number;
   h?: number;
   className?: string;
-}> = ({ data, w, h, className }) => {
+  priority?: boolean;
+}> = ({ data, w, h, className, priority = false }) => {
   const { thumbnail, title } = data || {};
   const { lang } = useLanguage();
 
@@ -23,14 +24,15 @@ export const Thumbnail: React.FC<{
     return <Skeleton w={w} h={h} className={className} />;
   }
 
+  // w, h가 있으면 고정 크기 방식, 없으면 부모를 채우는 fill 방식
   return (
     <Image
       className={className}
       alt={`${title || "도서"} ${altText[lang]}`}
       src={thumbnail}
-      width={w}
-      height={h}
-      priority
+      {...(w && h ? { width: w, height: h } : { fill: true })}
+      priority={priority}
+      style={{ objectFit: "cover", width: "100%", height: "100%" }}
     />
   );
 };

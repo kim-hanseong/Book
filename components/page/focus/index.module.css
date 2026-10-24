@@ -29,6 +29,11 @@
   line-height: 1.6;
 }
 
+.modalCover {
+  width: 280px;
+  height: 400px;
+}
+
 /* ======================================================
    2. Sticky Sub Navigation
    ====================================================== */
@@ -1307,5 +1312,73 @@
 
   .purchaseBar {
     justify-content: space-between;
+  }
+}
+
+/* ==========================================
+   FocusCuratorSection - Mobile Optimization
+   ========================================== */
+@media (max-width: 768px) {
+  /* 1. 전체 섹션 여백 축소 */
+  .modalCover {
+    object-fit: cover;
+    width: 250px;
+    height: 290px;
+  }
+  /* 2. 좌우 배치 -> 세로(Column) 배치로 전환 */
+  .heroInner {
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center; /* 모바일에서는 텍스트를 중앙 정렬하면 더 깔끔합니다 */
+  }
+
+  /* 3. 책 표지(Thumbnail) 감싸는 영역 중앙 정렬 */
+  .modalCover,
+  .heroCover {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* 4. 정보 영역 정렬 및 높이 초기화 */
+  .heroInfo {
+    width: 100%;
+    height: auto;
+    align-items: center; /* 자식 요소들도 중앙 정렬 */
+  }
+
+  /* 5. 텍스트 및 간격 모바일 컴팩트화 */
+  .bookTitle {
+    font-size: 22px;
+    margin-top: 6px;
+  }
+
+  .bookAuthor {
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .bookRating {
+    margin: 12px 0;
+  }
+
+  .bookCuratorInfo {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+}
+
+/* 초소형 모바일 기기 (Max-width: 480px) 추가 대응 */
+@media (max-width: 480px) {
+  .heroSection {
+    padding: 24px 12px 20px;
+  }
+
+  .heroInner {
+    gap: 24px;
+  }
+
+  .bookTitle {
+    font-size: 19px;
   }
 }

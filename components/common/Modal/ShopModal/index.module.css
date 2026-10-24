@@ -32,6 +32,10 @@
     transform: translate(-50%, -50%); /* 완벽한 화면 중앙 정렬 */
   }
 }
+.modalCover {
+  width: 126px;
+  height: 178px;
+}
 /* 모달 메인 박스 (.shopSection) */
 .shopSection {
   position: relative;

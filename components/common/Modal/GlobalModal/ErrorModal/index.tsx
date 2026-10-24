@@ -64,13 +64,13 @@ export default function ErrorModal() {
         </div>
         <div className={styles.errorEyebrow}>{dict.eyebrow}</div>
         <div className={styles.errorTitle} id="errorTitle">
-          {title || dict.defaultTitle}
+          {dict.defaultTitle}
         </div>
         <div className={styles.errorDesc} id="errorDesc">
-          {description || dict.defaultDesc}
+          {dict.defaultDesc}
         </div>
         <div className={styles.errorCode} id="errorCode">
-          {code || dict.defaultCode}
+          {dict.defaultCode}
         </div>
         <div className={styles.errorActions}>
           <button

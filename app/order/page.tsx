@@ -7,5 +7,5 @@ export default async function Page() {
 
   const addressData = await getAddressList();
 
-  return <OrderPage data={shopData} address={addressData} />;
+  return <OrderPage shop={shopData} address={addressData} />;
 }

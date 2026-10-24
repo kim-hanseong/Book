@@ -3,8 +3,7 @@
 import React, { useRef, useState, useMemo, useCallback } from "react";
 import Image from "next/image";
 import classNames from "classnames";
-import { useRouter } from "next/navigation";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 import { LikeButton } from "../../button/LikeBtn";
@@ -24,10 +23,7 @@ import styles from "./index.module.css";
 
 import { useAiReview } from "@/components/hook/useAiReview";
 import { DETAIL_MODAL_DICTIONARY } from "@/constants/common/Modal/DetailModal/detailModal";
-import {
-  createPost,
-  fetchPostByTitleAndThumbnail,
-} from "@/lib/supabase/supabase";
+import { fetchPostByTitleAndThumbnail } from "@/lib/supabase/supabase";
 import { usePersona } from "@/components/Context/usePersonaContext";
 import {
   PERSONA_DICTIONARY,
@@ -38,13 +34,13 @@ import { useModalStack } from "@/components/hook/useContextModal";
 import { Book } from "@/types/book";
 import { ReadRating } from "@/lib/api/ratingAction";
 import { AiReviewItem } from "@/types/aireviewitem";
+import { useMatchedPersona } from "@/components/hook/useMatchedPersona";
 
 interface DetailModalProps {
   data: Book;
 }
 
 export default function DetailModal({ data }: DetailModalProps) {
-  const router = useRouter();
   const { closeModal } = useModalStack();
   const { lang } = useLanguage();
   const currentLang = lang || "ko";
@@ -85,18 +81,6 @@ export default function DetailModal({ data }: DetailModalProps) {
     fallbackText: t.errorReviewFallback,
   });
 
-  const queryClient = useQueryClient();
-
-  // 리뷰 생성 Mutation
-  const { mutateAsync: createPostMutation } = useMutation({
-    mutationFn: createPost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["reviews", data?.title, data?.isbn],
-      });
-    },
-  });
-
   // 리뷰 히스토리 조회 Query
   const { data: historyList = [], isLoading: isHistoryLoading } = useQuery<
     AiReviewItem[]
@@ -116,18 +100,24 @@ export default function DetailModal({ data }: DetailModalProps) {
   });
 
   // 평점 조회 Query
-  const { data: ratingData = [] } = useQuery<number>({
+  // 💡 useQuery<number> -> useQuery<number[]>로 수정합니다.
+  const { data: ratingData = { averageRating: 0 } } = useQuery<{
+    averageRating: number;
+  }>({
     queryKey: ["rating", data?.title, data?.isbn],
-    queryFn: async () => {
-      if (!data?.title || !data?.isbn) return [];
+    queryFn: async (): Promise<{ averageRating: number }> => {
+      if (!data?.title || !data?.isbn) return { averageRating: 0 };
+
       const postData = await ReadRating(data.title, data.isbn);
 
-      return postData || [];
+      // 2. 어떤 값이 오든 무조건 number로 치환해서 객체로 반환합니다.
+      return {
+        averageRating: postData?.averageRating ?? postData?.average ?? 0,
+      };
     },
     enabled: !!data?.title && !!data?.isbn,
     staleTime: 1000 * 60 * 5,
   });
-
   const handleSafeClose = useCallback(() => {
     if (isClosingRef.current) return;
     isClosingRef.current = true;
@@ -148,7 +138,7 @@ export default function DetailModal({ data }: DetailModalProps) {
         ✕
       </button>
       <div className={styles.mainPanel}>
-        <BookInfoCard data={data} totalRating={ratingData} />
+        <BookInfoCard data={data} totalRating={ratingData || 0} />
 
         <CuratorSection
           selectedPersona={activePersona}
@@ -176,7 +166,9 @@ export default function DetailModal({ data }: DetailModalProps) {
 
 interface BookInfoCardProps {
   data: Book;
-  totalRating: number;
+  totalRating?: {
+    averageRating: number;
+  };
 }
 
 const BookInfoCard = React.memo(function BookInfoCard({
@@ -354,7 +346,7 @@ interface ReviewHistoryPanelProps {
   isLoading?: boolean;
 }
 
-const ReviewHistoryPanel = React.memo(function ReviewHistoryPanel({
+export const ReviewHistoryPanel = React.memo(function ReviewHistoryPanel({
   historyList,
   personaList,
   selectedFilter,
@@ -413,58 +405,9 @@ const ReviewHistoryPanel = React.memo(function ReviewHistoryPanel({
             ))}
           </div>
         ) : filteredHistory.length > 0 ? (
-          filteredHistory.slice(0, 3).map((item) => {
-            const personaDict = PERSONA_DICTIONARY[currentLang]?.personas;
-            const matchedPersona = personaDict?.find(
-              (p) =>
-                p.id === item.reviewer ||
-                p.id === item.personaId ||
-                p.name === item.reviewer ||
-                p.name === item.personaName,
-            );
-
-            const personaAvatar =
-              matchedPersona?.imageSrc || item.personaImage || "/야독.png";
-            const personaName =
-              matchedPersona?.name ||
-              item.personaName ||
-              item.reviewer ||
-              "큐레이터";
-
-            const commentText = item.Comment || item.review || "";
-            const truncatedComment =
-              commentText.length > 100
-                ? `${commentText.slice(0, 100)}...`
-                : commentText;
-
-            return (
-              <div key={item.id} className={styles.historyItemCard}>
-                <div className={styles.itemHeader}>
-                  <div className={styles.itemPersona}>
-                    <AiThumbnail
-                      src={personaAvatar}
-                      w={26}
-                      h={26}
-                      className={styles.itemAvatar}
-                    />
-                    <div style={{ minWidth: 0, flex: 1 }}>
-                      <span className={styles.itemName}>{personaName}</span>
-                    </div>
-                  </div>
-
-                  <div className={styles.itemScoreWrap}>
-                    <KarmaRating rating={item.rating} size={32} />
-                  </div>
-                </div>
-
-                <p className={styles.itemReviewText}>
-                  &ldquo;{truncatedComment}&rdquo;
-                </p>
-
-                <Created data={item} className={styles.itemDate} />
-              </div>
-            );
-          })
+          filteredHistory
+            .slice(0, 3)
+            .map((item) => <HistoryCardItem key={item.id} item={item} />)
         ) : (
           <div className={styles.emptyArchiveState}>
             <div className={styles.emptyIconWrap}>💬</div>
@@ -481,6 +424,46 @@ const ReviewHistoryPanel = React.memo(function ReviewHistoryPanel({
           </div>
         )}
       </div>
+    </div>
+  );
+});
+
+// 💡 각각의 아이템을 독립된 컴포넌트로 분리
+const HistoryCardItem = React.memo(function HistoryCardItem({
+  item,
+}: {
+  item: AiReviewItem;
+}) {
+  const matchedPersona = useMatchedPersona(item.reviewer);
+
+  // 💡 2. truncatedComment가 외부 변수라면 item 안의 코멘트로 안전하게 처리
+  const truncatedComment = item.Comment; // 필요에 따라 .slice() 등으로 자르기
+
+  return (
+    // 💡 3. key는 map을 도는 부모(HistoryCardItem)에 있으므로 내부 div의 key는 제거합니다.
+    <div className={styles.historyItemCard}>
+      <div className={styles.itemHeader}>
+        <div className={styles.itemPersona}>
+          <AiThumbnail
+            data={matchedPersona}
+            w={26}
+            h={26}
+            className={styles.itemAvatar}
+          />
+          <div style={{ minWidth: 0, flex: 1 }}>
+            {/* 💡 4. matchedPersona가 null일 수 있으므로 옵셔널 체이닝(?.) 적용 */}
+            <span className={styles.itemName}>{matchedPersona?.name}</span>
+          </div>
+        </div>
+
+        <div className={styles.itemScoreWrap}>
+          <KarmaRating rating={item.rating} size={32} />
+        </div>
+      </div>
+
+      <p className={styles.itemReviewText}>&ldquo;{truncatedComment}&rdquo;</p>
+
+      <Created data={item} className={styles.itemDate} />
     </div>
   );
 });

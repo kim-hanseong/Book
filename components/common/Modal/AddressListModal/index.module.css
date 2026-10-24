@@ -51,6 +51,21 @@
     box-shadow 0.2s ease;
   min-height: 105px; /* 💡 실제 주소 카드들이 들어갔을 때의 평균 높이로 고정 */
 }
+.amItemSelect {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
 .amItem:hover {
   border-color: rgba(255, 255, 255, 0.35);
 }
@@ -163,4 +178,8 @@
 }
 .errorMessage {
   font-size: 10.5px;
+}
+.sk {
+  min-height: 32px;
+  width: 100%;
 }

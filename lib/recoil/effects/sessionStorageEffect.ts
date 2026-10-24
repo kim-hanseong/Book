@@ -10,8 +10,11 @@ export const sessionStorageEffect =
     if (savedValue != null) {
       try {
         setSelf(JSON.parse(savedValue));
-      } catch {
-        console.log("gd");
+      } catch (error) {
+        console.error(
+          `Failed to parse session storage value for "${key}":`,
+          error,
+        );
       }
     }
 

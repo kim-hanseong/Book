@@ -3,9 +3,6 @@ import { fetchBookDetailsByTitles } from "./fetchBookDetailsTitles";
 
 import { Book } from "@/types/book";
 
-interface FetchBestSellerResult {
-  books: Book[];
-}
 type SortType = "추천일순" | "출판일순" | undefined;
 
 export async function fetchBestSeller(

@@ -24,7 +24,6 @@ import { Thumbnail } from "@/components/common/Product/Thumbnail";
 import { Title } from "@/components/common/Product/Title";
 import { KakaoBookSearch } from "@/lib/kakao/bookApi";
 import { FocusBtn } from "@/components/common/button/FocusBtn";
-import { fetchBuyList } from "@/lib/query/Buy/fetchBuy";
 
 export default function SearchModal() {
   const { closeModal } = useModalStack();
@@ -61,12 +60,6 @@ export default function SearchModal() {
     queryFn: () => KakaoBookSearch(debouncedQuery),
     enabled: debouncedQuery.length >= 1,
     staleTime: 1000 * 60 * 3, // 3분 캐시
-  });
-
-  const { data: recentlist = [] } = useQuery({
-    queryKey: ["recent"],
-    queryFn: fetchBuyList,
-    staleTime: 1000 * 60 * 5, // 5분 캐시
   });
 
   const handleSelectBook = useCallback(
@@ -247,27 +240,25 @@ const RecentSearchList = React.memo(function RecentSearchList({
           {clearAllText}
         </Button>
       </div>
-      {topTitles.map((itemTitle) => (
-        <div
-          key={itemTitle}
-          role="button"
-          className={styles.searchItem}
-          onClick={() => onSelectTitle(itemTitle)}
-        >
-          <svg className={styles.searchClock} viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="8" />
-            <path d="M12 8v4l3 2" />
-          </svg>
-          <div className={styles.info}>
-            <div className={styles.t}>{itemTitle}</div>
-          </div>
+      {topTitles.map((itemTitle, idx) => (
+        <div key={idx} className={styles.searchItem}>
+          <button
+            type="button"
+            className={styles.recentSearchButton}
+            onClick={() => onSelectTitle(itemTitle)}
+          >
+            <svg className={styles.searchClock} viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="8" />
+              <path d="M12 8v4l3 2" />
+            </svg>
+            <div className={styles.info}>
+              <div className={styles.t}>{itemTitle}</div>
+            </div>
+          </button>
           <button
             type="button"
             className={styles.deleteBtn}
-            onClick={(e) => {
-              e.stopPropagation();
-              onRemoveTitle(itemTitle);
-            }}
+            onClick={() => onRemoveTitle(itemTitle)}
             aria-label={deleteAriaLabel}
           >
             ✕
@@ -293,11 +284,7 @@ const SearchResultList = React.memo(function SearchResultList({
   return (
     <div className={styles.searchResults}>
       {topBooks.map((book, idx) => (
-        <SearchResultItem
-          key={book.isbn || book.id || idx}
-          book={book}
-          onSave={onSave}
-        />
+        <SearchResultItem key={idx} book={book} onSave={onSave} />
       ))}
     </div>
   );
@@ -318,7 +305,9 @@ const SearchResultItem = React.memo(function SearchResultItem({
       data={book}
       className={styles.searchItem}
     >
-      <Thumbnail data={book} w={34} h={46} className={styles.searchThumb} />
+      <div className={styles.modalCover}>
+        <Thumbnail data={book} w={34} h={46} className={styles.searchThumb} />
+      </div>
       <div className={styles.info}>
         <Title data={book} className={styles.t} />
       </div>

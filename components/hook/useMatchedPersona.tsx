@@ -4,7 +4,7 @@ import { useLanguage } from "./useContextLanguge";
 
 import { PERSONA_DICTIONARY } from "@/constants/main/AiReviewSelect";
 
-export function useMatchedPersona(id) {
+export function useMatchedPersona(id: string) {
   const { lang } = useLanguage();
 
   return useMemo(() => {

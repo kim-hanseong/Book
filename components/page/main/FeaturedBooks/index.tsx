@@ -119,8 +119,6 @@ export const ProductCategory = React.memo(
 
         <div className={styles.regions}>
           {CATEGORY_MAP.map((category) => {
-            const label = dict.categories?.[category.id] ?? category.id;
-
             return (
               <button
                 key={category.id}
@@ -131,7 +129,7 @@ export const ProductCategory = React.memo(
                 onClick={() => onSelectCategory?.(category.id)}
               >
                 <span className={styles.code}>{category.code}</span>
-                {label}
+                {category.id}
               </button>
             );
           })}

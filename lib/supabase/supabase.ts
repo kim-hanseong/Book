@@ -3,7 +3,6 @@ import { createBrowserClient } from "@supabase/ssr";
 import { SupabaseClient } from "@supabase/supabase-js"; // SupabaseClient 타입 임포트
 
 //* type */
-import { BookDataType, BooksData } from "@/types/il8n";
 
 // createBrowserClient는 App Router 환경에서 클라이언트 컴포넌트, Route Handlers, Server Actions에서
 // 유니버설하게(어디서든) 사용할 수 있는 클라이언트를 생성합니다.
@@ -14,7 +13,7 @@ export const supabase = createBrowserClient(
 );
 export async function signInWithKakao(): Promise<void> {
   try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "kakao",
     });
 
@@ -23,7 +22,6 @@ export async function signInWithKakao(): Promise<void> {
 
       return;
     }
-    console.log("Kakao sign-in successful:", data);
   } catch (err) {
     console.error("Unexpected error during Kakao sign-in:", err);
   }
@@ -123,7 +121,7 @@ export async function RemoveLikeDataBase(
 }
 
 // --------------------------- Shop 테이블 관련 함수 ---------------------------*/
-export async function ReadSupaBase(userid?: string): Promise<BooksData> {
+export async function ReadSupaBase(_userid?: string): Promise<BooksData> {
   const { data: record, error } = await supabase.from("Shop").select("*");
 
   return { data: record || [], total: record ? record.length : null, error };
@@ -132,7 +130,7 @@ export async function ReadSupaBase(userid?: string): Promise<BooksData> {
 export async function DeleteSupaBase(
   id: number,
 ): Promise<{ success: boolean; error?: unknown }> {
-  const { data, error } = await supabase.from("Shop").delete().eq("id", id);
+  const { error } = await supabase.from("Shop").delete().eq("id", id);
 
   if (error) return { success: false, error };
 
@@ -244,8 +242,6 @@ export const fetchPostBySlug2 = async (
 ) => {
   let query = supabase.from("posts").select("*").eq("slug", slug);
 
-  console.log("가져옴");
-
   // 정렬 조건 적용
   if (sort === "최신순") {
     query = query.order("created_at", { ascending: false });
@@ -315,7 +311,7 @@ const updateItemInDatabase = async (
   existingItem: BookDataType,
 ) => {
   const newNumbering = (existingItem.numbering ?? 0) + 1;
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("Shop")
     .update({ numbering: newNumbering })
     .eq("isbn", item.isbn);

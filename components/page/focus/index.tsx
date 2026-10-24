@@ -5,13 +5,10 @@ import Image from "next/image";
 import classNames from "classnames";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-// Types
 import styles from "./index.module.css";
 
 import { Book } from "@/types/book";
 import { AiReviewItem } from "@/types/aireviewitem";
-
-// Constants & Supabase API
 import { DETAIL_MODAL_DICTIONARY } from "@/constants/common/Modal/DetailModal/detailModal";
 import {
   PERSONA_DICTIONARY,
@@ -20,8 +17,6 @@ import {
 import { FOCUS_NAV, FOCUS_SECTION_DICTIONARY } from "@/constants/focus/Focus";
 import { fetchPostByTitleAndThumbnail } from "@/lib/supabase/supabase";
 import { DeletePost, ReadPost } from "@/lib/api/postAction";
-
-// Styles
 import { useLanguage } from "@/components/hook/useContextLanguge";
 import { usePersona } from "@/components/Context/usePersonaContext";
 import { useModalStack } from "@/components/hook/useContextModal";
@@ -271,7 +266,7 @@ export default function FocusPage({
             <ReaderCommentsSection
               comment={userCommentList}
               userstate={UserState}
-              onDelete={handleDeleteComment}
+              onDelete={(id) => handleDeleteComment(Number(id))}
             />
           ) : isUserCommentLoading ? (
             <ReviewPanelLoading />
@@ -477,12 +472,11 @@ CuratorSection.displayName = "CuratorSection";
 const UserAiStateItem = React.memo(
   ({ item }: { item: UserReviewerStatItem }) => {
     const matchedPersona = useMatchedPersona(item.reviewer);
-    const personaAvatar = matchedPersona?.imageSrc || "/야독.png";
 
     return (
       <div className={styles.reviewerAvatar}>
         <AiThumbnail
-          src={personaAvatar}
+          data={matchedPersona}
           w={32}
           h={32}
           className={styles.reviewerThumbnail}
@@ -498,7 +492,7 @@ const UserAiState = React.memo(({ list }: { list: UserReviewerStatItem[] }) => {
   return (
     <div className={styles.reviewerAvatarStack}>
       {list.slice(0, 3).map((item) => (
-        <UserAiStateItem key={item.reviewer || item.id} item={item} />
+        <UserAiStateItem key={item.reviewer} item={item} />
       ))}
     </div>
   );
@@ -533,7 +527,9 @@ const FocusCuratorSection = React.memo(
     return (
       <section id="detail" className={styles.heroSection}>
         <div className={styles.heroInner}>
-          <Thumbnail data={data} w={280} h={400} className={styles.heroCover} />
+          <div className={styles.modalCover}>
+            <Thumbnail w={280} h={400} data={data} />
+          </div>
           <div className={styles.heroInfo}>
             <span className={styles.eyebrow}>BOOK DETAIL</span>
             <Title data={data} className={styles.bookTitle} />
@@ -582,7 +578,7 @@ const FocusCuratorItem = React.memo(
     return (
       <div className={styles.reviewWrap}>
         <AiThumbnail
-          src={matchedPersona?.imageSrc}
+          data={matchedPersona}
           w={50}
           h={50}
           className={styles.itemAvatar}
@@ -622,7 +618,7 @@ const ReaderCommentsSection = React.memo(
   }: {
     comment: comment[];
     userstate: UserReviewerStatItem[];
-    onDelete: (commentId: number) => void;
+    onDelete: (id: string | number) => void;
   }) => {
     const { session } = useSupabase();
     const currentUserId = session?.user?.id;
@@ -769,7 +765,7 @@ const AIReviewPanelItem = React.memo(({ item }: { item: AiReviewItem }) => {
       <div className={styles.itemHeader}>
         <div className={styles.itemPersona}>
           <AiThumbnail
-            src={personaAvatar}
+            data={matchedPersona}
             w={52}
             h={52}
             className={styles.itemAvatar}

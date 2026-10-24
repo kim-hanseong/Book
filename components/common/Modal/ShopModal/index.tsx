@@ -26,7 +26,6 @@ import { useLanguage } from "@/components/hook/useContextLanguge";
 import { SHOP_MODAL_DICTIONARY } from "@/constants/common/Modal/ShopModal/shopModal";
 import { SHOP_EMPTY_DICTIONARY } from "@/constants/order/order";
 
-
 const THUMB_W = 126;
 const THUMB_H = 178;
 
@@ -104,14 +103,14 @@ function ShopItem({ item }: { item: Book }) {
   return (
     <li className={styles.item}>
       <DeleteButton onClick={handleDelete} />
-
-      <Thumbnail
-        data={item}
-        w={THUMB_W}
-        h={THUMB_H}
-        className={styles.itemThumb}
-      />
-
+      <div className={styles.modealCover}>
+        <Thumbnail
+          data={item}
+          w={THUMB_W}
+          h={THUMB_H}
+          className={styles.itemThumb}
+        />
+      </div>
       <div className={styles.itemBody}>
         <Title data={item} className={styles.itemTitle} />
         <Authors data={item} className={styles.itemAuthor} />

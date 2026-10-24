@@ -266,8 +266,12 @@
   padding: 28px 0;
   border-bottom: 1px solid var(--line);
   transition: background 0.25s ease;
+  width: 100%;
 }
-
+.modalCover {
+  width: 64px;
+  height: 86px;
+}
 .result:hover {
   background: linear-gradient(
     90deg,
@@ -855,5 +859,53 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .searchItem .info {
+    flex: 1;
+    min-width: 0; /* 💡 Flexbox에서 자식 요소가 부모 너비를 강제로 뚫고 나가는 현상 방지 */
+    overflow: hidden;
+  }
+
+  /* 2. 타이틀(.t) 영역 오버플로우 방지 및 말줄임표 처리 */
+  .searchItem .t {
+    display: block;
+    width: 100%;
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 넘칠 경우 말줄임표(...) 표시 */
+  }
+  .searchItem {
+    padding: 10px 14px; /* 모바일 터치 영역 확보 및 여백 축소 */
+    gap: 10px;
+  }
+
+  /* 썸네일 영역 고정 및 축소 */
+  .searchItem .modalCover {
+    width: 30px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  /* 텍스트 영역이 남은 공간을 채우고 길면 말줄임표 처리 */
+  .searchItem .info {
+    flex: 1;
+    min-width: 0; /* flex 자식 요소 텍스트 넘침 방지 */
+  }
+
+  .searchItem .t {
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 제목이 길면 ... 처리 */
+  }
+
+  /* 가격 정보 폰트 크기 조절 */
+  .searchPrice {
+    font-size: 12px;
+    flex-shrink: 0;
   }
 }

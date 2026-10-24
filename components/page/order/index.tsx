@@ -95,7 +95,10 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
     const initial: Record<string, number> = {};
 
     (shop || []).forEach((item) => {
-      initial[item.id] = item.numbering || 1;
+      // item.id가 존재할 때만 객체에 추가
+      if (item.id != null) {
+        initial[String(item.id)] = item.numbering || 1;
+      }
     });
 
     return initial;
@@ -110,8 +113,10 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
 
   const totalPrice = useMemo(() => {
     return shopList.reduce((sum, item) => {
-      const currentQty = quantities[item.id] || 1;
+      // item.id가 없으면 이번 아이템은 계산에서 제외
+      if (item.id == null) return sum;
 
+      const currentQty = quantities[item.id] || 1;
       return sum + (item.price || 0) * currentQty;
     }, 0);
   }, [shopList, quantities]);
@@ -149,6 +154,9 @@ export default function OrderPage({ shop, address }: OrderPageProps) {
 
     try {
       const orderPromises = shopList.map(async (item) => {
+        if (!item.id) {
+          throw new Error("상품 ID가 존재하지 않습니다.");
+        }
         const currentQty = quantities[item.id] || 1;
         const orderResult = await AddOrder(item, addressList[0], currentQty);
 
@@ -394,12 +402,11 @@ function AddressSection({
     });
 
     try {
-      const payload: Address = {
+      const payload: Omit<Address, "id" | "user_id" | "is_default"> = {
         ...newAddress,
-        phone_number: Number(newAddress.phone_number.replace(/[^0-9]/g, "")),
+        phone_number: newAddress.phone_number.replace(/[^0-9]/g, ""),
       };
-
-      const savedData = await AddAddressDataBase(payload);
+      const savedData = await AddAddressDataBase(payload as Address);
 
       await queryClient.invalidateQueries({
         queryKey: queryKeys.address.list(),
@@ -656,6 +663,9 @@ const ShopItem = React.memo(function ShopItem({
   const { lang } = useLanguage();
   const t = ORDER_DICTIONARY[lang];
 
+  if (!item.id) {
+    throw new Error("상품 ID가 존재하지 않습니다.");
+  }
   const currentQty = quantities[item.id] || 1;
 
   const handleDelete = useCallback(() => {

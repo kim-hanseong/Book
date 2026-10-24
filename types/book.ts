@@ -10,7 +10,7 @@ export type Book = {
   publisher: string;
   contents: string;
   datetime: Date;
-  created_at?: Date;
+  created_at?: string;
   numbering?: number;
   isbn: string;
   content: string;

@@ -107,42 +107,6 @@ function OrderSuccessEmblem() {
   );
 }
 
-interface OrderItemSummaryProps {
-  title: string;
-  author: string;
-  thumbnail?: string;
-  price: number;
-  quantity: number;
-}
-
-function OrderItemSummary({
-  title,
-  author,
-  thumbnail,
-  price,
-  quantity,
-}: OrderItemSummaryProps) {
-  const { lang } = useLanguage();
-  const t = ORDER_SUCCESS_DICTIONARY[lang];
-
-  return (
-    <div className={styles.item}>
-      <div className={styles.itemInfo}>
-        <p className={styles.itemTitle} title={title}>
-          {title}
-        </p>
-        <p className={styles.itemMeta}>
-          {author ? `${author} · ` : ""}
-          {t.formatQuantity(quantity)}
-        </p>
-      </div>
-
-      {/* 단가와 수량을 곱한 총 가격 계산 오타 수정 (*) */}
-      <p className={styles.itemPrice}>{t.formatPrice(price * quantity)}</p>
-    </div>
-  );
-}
-
 interface OrderSuccessActionsProps {
   onContinue: () => void;
   onOrder: () => void;
