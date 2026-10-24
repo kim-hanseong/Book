@@ -72,34 +72,6 @@ export const DeleteOrderShopDB = async (titles: string[]) => {
 };
 
 //*--------------------------- Best 테이블 관련 함수 ---------------------------*/
-export async function Best_Book_DB(
-  DB: string,
-  sorting: "추천일순" | "출판일순" = "출판일순", // 기본값 설정
-): Promise<{
-  data: BookDataType[] | null;
-  total: number | null;
-  error: unknown;
-}> {
-  const pageNumber = 1;
-  const pageSize = 8;
-  const offset = (pageNumber - 1) * pageSize;
-
-  let query = supabase
-    .from(`${DB}`)
-    .select("*")
-    .range(offset, offset + pageSize - 1);
-
-  if (sorting === "추천일순") {
-    query = query.order("id", { ascending: false });
-  } else if (sorting === "출판일순") {
-    query = query.order("publicationdate", { ascending: false });
-  }
-
-  const { data: record, error: dataError } = await query;
-
-  return { data: record, total: null, error: dataError };
-}
-//*--------------------------- Posts 테이블 관련 함수 ---------------------------*/
 export const fetchPostBySlug = async () => {
   const { data, error } = await supabase
     .from("posts")
@@ -172,36 +144,6 @@ export const addPost = async (
 };
 
 //*--------------------------- Helper 함수 ---------------------------*/
-const addItemToDatabase = async (item: BookDataType) => {
-  const { data, error } = await supabase.from("Shop").insert([
-    {
-      title: item.title,
-    },
-  ]);
-
-  if (error) {
-    console.error("Error adding item to database:", error.message);
-  }
-
-  return { data, error };
-};
-
-const updateItemInDatabase = async (
-  item: BookDataType,
-  existingItem: BookDataType,
-) => {
-  const newNumbering = (existingItem.numbering ?? 0) + 1;
-  const { error } = await supabase
-    .from("Shop")
-    .update({ numbering: newNumbering })
-    .eq("isbn", item.isbn);
-
-  if (error) {
-    console.error("Error updating item in database:", error.message);
-  }
-};
-
-// lib/supabase/supabase.ts
 
 export async function fetchPostByTitleAndThumbnail(
   title: string,
