@@ -1,5 +1,5 @@
 export interface AiReviewItem {
-  id: number;
+  id?: number;
 
   // AI 리뷰 데이터
   reviewer: string;
@@ -19,7 +19,7 @@ export interface AiReviewItem {
   user_id?: string;
   created_at?: string;
 
-  datetime: Date;
+  datetime?: Date; // 옵셔널로 변경
 }
 
 export type ReviewerType =
