@@ -86,63 +86,6 @@ export const fetchPostBySlug = async () => {
   return data;
 };
 
-export type SortType = "최신순" | "별점높은순" | "별점낮은순";
-
-export const fetchPostBySlug2 = async (
-  slug: string,
-  sort: SortType = "최신순",
-) => {
-  let query = supabase.from("posts").select("*").eq("slug", slug);
-
-  // 정렬 조건 적용
-  if (sort === "최신순") {
-    query = query.order("created_at", { ascending: false });
-  } else if (sort === "별점높은순") {
-    query = query.order("rating", { ascending: false });
-  } else if (sort === "별점낮은순") {
-    query = query.order("rating", { ascending: true });
-  }
-
-  // 상위 5개만 가져오기
-  query = query.limit(5);
-
-  const { data, error } = await query;
-
-  if (error) {
-    throw new Error("Error fetching post.");
-  }
-
-  return data;
-};
-
-export const DeleteSlugDB = async (id: number) => {
-  const { data, error } = await supabase.from("posts").delete().eq("id", id);
-
-  if (error) {
-    throw new Error("Error deleting data.");
-  }
-
-  return data;
-};
-
-export const addPost = async (
-  slug: string,
-  content: string,
-  rating: number,
-  email: string,
-) => {
-  const { data, error } = await supabase
-    .from("posts")
-    .insert([{ slug, content, rating, email }])
-    .single();
-
-  if (error) {
-    throw new Error(`Error adding post: ${error.message}`);
-  }
-
-  return data;
-};
-
 //*--------------------------- Helper 함수 ---------------------------*/
 
 export async function fetchPostByTitleAndThumbnail(
