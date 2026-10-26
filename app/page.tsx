@@ -6,7 +6,7 @@ import { fetchBestSeller } from "@/lib/SSG/fetchBestSeller";
 
 export default async function Page() {
   const [bestSellerData] = await Promise.all([
-    fetchBestSeller("best_category_eBook", "추천일순"),
+    fetchBestSeller("best_category_eBook"),
   ]);
 
   return (

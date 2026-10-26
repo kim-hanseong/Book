@@ -3,14 +3,9 @@ import { fetchBookDetailsByTitles } from "./fetchBookDetailsTitles";
 
 import { Book } from "@/types/book";
 
-type SortType = "추천일순" | "출판일순" | undefined;
-
-export async function fetchBestSeller(
-  category: string,
-  sort: SortType,
-): Promise<Book[]> {
+export async function fetchBestSeller(category: string): Promise<Book[]> {
   try {
-    const titles = await getBestSellerTitlesFromSupabase(category, sort);
+    const titles = await getBestSellerTitlesFromSupabase(category);
 
     if (!titles || titles.length === 0) {
       return [];

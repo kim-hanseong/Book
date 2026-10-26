@@ -46,8 +46,8 @@ export default function FeaturedBooks({ data }: FeaturedBooksProps) {
   }, [selectedCategory]);
 
   const { data: bestSellerData = data } = useQuery({
-    queryKey: ["bestSeller", apiCategory, "추천일순"],
-    queryFn: () => fetchBestSeller(apiCategory, "추천일순"),
+    queryKey: ["bestSeller", apiCategory],
+    queryFn: () => fetchBestSeller(apiCategory),
     placeholderData: data,
     staleTime: 1000 * 60 * 5, // 5분간 캐시 유지 (서버 트래픽 방어)
   });
