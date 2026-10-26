@@ -43,7 +43,7 @@ export const BuyButton: React.FC<{
   return (
     <AuthButton className={clsx(styles.Like, className)} onClick={handleClick}>
       {isInCart ? (
-        <ShoppingBag strokeWidth={0.3} fill="#fff" />
+        <ShoppingBag strokeWidth={1.5} />
       ) : (
         <ShoppingBag strokeWidth={0.3} />
       )}

@@ -26,11 +26,7 @@ export const LikeButton = ({ data, className, onClick }: LikeButtonProps) => {
 
   return (
     <AuthButton className={clsx(styles.Like, className)} onClick={handleClick}>
-      {isLiked ? (
-        <Heart color="#fff" strokeWidth={0.3} />
-      ) : (
-        <Heart strokeWidth={0.3} />
-      )}
+      {isLiked ? <Heart strokeWidth={1.5} /> : <Heart strokeWidth={0.3} />}
     </AuthButton>
   );
 };

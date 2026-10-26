@@ -1,21 +1,15 @@
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  border: 1px solid var(--line, rgba(255, 255, 255, 0.15));
-  border-radius: var(--radius-2xl, 16px);
-  max-width: 560px;
+  animation: fadeIn 0.25s ease-out forwards;
+  padding: 16px; /* 모바일에서 화면 끝에 붙지 않도록 여백 부여 */
+
   top: 50%;
   left: 50%;
-  animation: fadeIn 0.25s ease-out forwards;
-  /* min-height: 430px; */
-  max-height: 380px;
-  overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -28,6 +22,7 @@
     transform: translate(-50%, -50%); /* 완벽한 화면 중앙 정렬 */
   }
 }
+
 .searchOverlay {
   /* 검색 모달 전용 추가 오버레이 스타일 */
 }
@@ -35,8 +30,16 @@
 .addrModal {
   padding: 24px;
   width: 100%;
+  max-width: 560px; /* PC 최대 너비 */
+  max-height: 85vh; /* 화면이 작을 때 세로가 꽉 차서 잘리지 않도록 변경 */
+  display: flex;
+  flex-direction: column;
+  background: var(--slate-1, #121212); /* 배경색 누락 방지용 기본값 추가 */
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.15));
+  border-radius: var(--radius-2xl, 16px);
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 .amClose:hover {
@@ -46,6 +49,7 @@
 
 .amHead {
   margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 .amEyebrow {
@@ -68,6 +72,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 .smSearch svg {
@@ -88,6 +93,7 @@
   color: var(--bone, #fff);
   font-size: 12.5px;
   outline: none;
+  border-radius: 4px;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
@@ -99,7 +105,20 @@
 }
 
 .smBody {
+  flex: 1;
+  overflow-y: auto; /* 내용이 많아지면 스크롤 생성 */
   min-height: 180px;
+  /* 스크롤바 디자인 (웹킷 브라우저) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--line, rgba(255, 255, 255, 0.15)) transparent;
+}
+
+.smBody::-webkit-scrollbar {
+  width: 4px;
+}
+.smBody::-webkit-scrollbar-thumb {
+  background: var(--line, rgba(255, 255, 255, 0.15));
+  border-radius: 2px;
 }
 
 .smHint {
@@ -138,6 +157,7 @@
   color: var(--bone-dim, #b0b0b0);
   font-size: 11px;
   cursor: pointer;
+  border-radius: 4px;
   transition: all 0.2s;
 }
 
@@ -148,7 +168,8 @@
 }
 
 .smResultWrap {
-  /* 검색 결과 영역 */
+  display: flex;
+  flex-direction: column;
 }
 
 .amCount {
@@ -160,15 +181,44 @@
 .smResults {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+
+.addressItem {
+  width: 100%;
 }
 
 .itemBody {
-  color: #fff;
-}
-
-.itemBody {
-  background: var(--slate-2);
-  border: 1px solid var(--line);
+  width: 100%;
+  display: block;
+  text-align: left;
+  padding: 12px 14px;
+  background: var(--slate-2, #1a1a1a);
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.15));
+  border-radius: 4px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.itemBody:hover {
+  border-color: var(--glow, #64ffda);
+  background: rgba(100, 255, 218, 0.05);
+}
+
+.itemName {
+  color: var(--bone, #fff);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* 모바일 화면 대응용 미디어 쿼리 */
+@media (max-width: 480px) {
+  .modalOverlay {
+    padding: 12px;
+  }
+  .addrModal {
+    padding: 18px;
+    max-height: 90vh;
+  }
 }

@@ -96,7 +96,7 @@ const DefaultAuth = ({ ariaLabel }: { ariaLabel: string }) => {
     // 필요에 따라 로그인 여부를 체크하여 모달을 띄우거나 마이페이지로 이동할 수 있습니다.
     // 예: 로그인 상태가 아니라면 openModal()을 호출하고, 맞다면 라우팅 처리
 
-    router.push("/mypage");
+    router.push("/myPage");
   };
 
   return (

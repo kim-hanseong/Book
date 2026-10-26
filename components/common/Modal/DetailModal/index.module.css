@@ -11,7 +11,10 @@
   box-shadow: var(--shadow-modal);
   z-index: var(--z-modal);
   padding: 20px;
+  top: 50%;
+  left: 50%;
   animation: fadeIn 0.25s ease-out forwards;
+  transform: translate(-50%, -50%);
 }
 
 .modalClose {
@@ -644,11 +647,11 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(48%);
+    transform: translate(-50%, -54%); /* 살짝 아래에서 올라오는 효과 */
   }
   to {
     opacity: 1;
-    transform: translateY(50%);
+    transform: translate(-50%, -50%); /* 완벽한 화면 중앙 정렬 */
   }
 }
 
